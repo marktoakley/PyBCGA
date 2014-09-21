@@ -6,7 +6,6 @@ Run the BCGA
 
 from bcga.population import Population
 
-
 natoms = 6
 mypop = Population(natoms,10)
 mypop.print_energies()
