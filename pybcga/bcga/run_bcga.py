@@ -4,11 +4,13 @@ Run the BCGA
 @author: Mark Oakley
 '''
 
-from bcga.population import Population
+from bcga.genetic_algorithm import Genetic_algorithm as ga
 
 natoms = 6
-mypop = Population(natoms,10)
-mypop.print_energies()
-mypop.sort()
-print("")
-mypop.print_energies()
+
+myga = ga(natoms)
+myga.run()
+
+
+
+

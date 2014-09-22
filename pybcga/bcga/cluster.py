@@ -15,3 +15,6 @@ class Cluster:
     def get_energy(self):
         """Dummy energy calculation routine"""
         return sum(self.coords)
+    
+    def mutate_replace(self):
+        return Cluster(self.natoms)
