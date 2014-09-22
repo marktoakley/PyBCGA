@@ -44,4 +44,8 @@ class Cluster:
         self.coords=c.flatten()
         #print(self.coords)
         
+    def print_coords(self):
+        '''Print coordinates of cluster to std out'''
+        for i in range(0,self.natoms):
+            print(str(i+1)+"\t"+str(self.coords[3*i:3*i+3]))
         
