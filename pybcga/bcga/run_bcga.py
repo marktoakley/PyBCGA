@@ -6,7 +6,7 @@ Run the BCGA
 
 from bcga.genetic_algorithm import Genetic_algorithm as ga
 
-natoms = 6
+natoms = 13
 
 myga = ga(natoms)
 myga.run()
