@@ -7,12 +7,13 @@ from bcga.population import Population
 import crossover
 
 class Genetic_algorithm:
-    def __init__(self,natoms,pop_size=10,max_generation=10,mutant_rate=0.2,offspring=8):
+    def __init__(self,natoms,pop_size=10,max_generation=10,mutant_rate=0.2,offspring=8,remove_duplicates=False):
         self.max_generation = max_generation
         self.mutant_rate = mutant_rate
         self.mypop = Population(natoms,pop_size)
         self.offspring=offspring
         self.pop_size=pop_size
+        self.remove_duplicates=remove_duplicates
     
 
     def make_offspring(self):
@@ -37,6 +38,8 @@ class Genetic_algorithm:
             print ("Generation "+str(generation))
             self.make_offspring()
             self.make_mutants()
+            if self.remove_duplicates:
+                self.mypop.remove_duplicates()
             self.mypop.truncate()
             self.mypop.print_energies()
     

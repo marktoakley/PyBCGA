@@ -26,4 +26,13 @@ class Population:
         while self.population.__len__() > self.size:
             self.population.pop()
             
-
+    def remove_duplicates(self,threshold=1e-6):
+        '''Duplicate predator deletes duplicate structures (defined by energy difference below threshold).'''
+        self.sort_energy()
+        i=1
+        while i < self.population.__len__():
+            diff = self.population[i].get_energy()-self.population[i-1].get_energy()
+            if diff < threshold:
+                self.population.pop(i)
+            else:
+                i = i +1
