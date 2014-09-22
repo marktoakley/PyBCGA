@@ -53,7 +53,7 @@ class Cluster:
     def write_xyz(self,xyz_file):
         '''Write the cluster's coordinates to an xyz file.'''
         xyz_file.write(str(self.natoms)+"\n")
-        xyz_file.write("Cluster\n")
+        xyz_file.write("Energy: "+str(self.get_energy())+"\n")
         for i in range(0,self.natoms):
             xyz_file.write("X "+str(self.coords[3*i])+
                        " "+str(self.coords[3*i+1])+
