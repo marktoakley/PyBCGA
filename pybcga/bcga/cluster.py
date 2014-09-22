@@ -11,7 +11,7 @@ from pele.optimize import mylbfgs
 
 class Cluster:
     def __init__(self,natoms):
-        '''Generate a random cluster and minimise it'''
+        '''Generate a random cluster'''
         self.natoms=natoms
         self.coords = np.random.uniform(-1, 1, [3*natoms]) * 0.7 * float(natoms)**(1./3)
 #        self.coords=(np.random.rand(natoms,3) -0.5) * 1.4 * float(natoms)
@@ -35,4 +35,13 @@ class Cluster:
         quench = lambda coords : mylbfgs(self.coords, potential)
         res = quench(self.coords)
         self.energy = res.energy
+        
+    def z_sort(self):
+        '''Re-orders the atoms in a cluster along the z-axis'''
+        #print(self.coords)
+        b=np.reshape(self.coords,(-1,3))
+        c=b[np.lexsort(b.T)]
+        self.coords=c.flatten()
+        #print(self.coords)
+        
         
