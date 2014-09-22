@@ -18,7 +18,7 @@ class Population:
             
     def sort_energy(self):
         """Sort population by energy"""
-        self.population.sort(key=lambda x: x.energy, reverse=False)
+        self.population.sort(key=lambda x: x.get_energy(), reverse=False)
         
     def truncate(self):
         """Remove worst clusters from population until population is below maximum size"""

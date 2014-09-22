@@ -15,10 +15,14 @@ class Cluster:
         self.natoms=natoms
         self.coords = np.random.uniform(-1, 1, [3*natoms]) * 0.7 * float(natoms)**(1./3)
 #        self.coords=(np.random.rand(natoms,3) -0.5) * 1.4 * float(natoms)
-        self.minimise()
+        self.quenched=False
+
         
     def get_energy(self):
         """Energy of minimised cluster"""
+        if self.quenched==False:
+            self.minimise()
+            self.quenched=True
         return self.energy
     
     def mutate_replace(self):
