@@ -41,4 +41,17 @@ class Population:
         '''Write the coordinates of the whole population to an xyz file.'''
         for cluster in self.population:
             cluster.write_xyz(xyz_file)
+            
+    def get_lowest_energy(self):
+        '''Return the energy of the most stable structure in the population.'''
+        self.sort_energy()
+        return self.population[0].get_energy()
+    
+    def get_mean_energy(self):
+        '''Return the mean energy of all structures in the population.'''
+        e_sum=0
+        for cluster in self.population[0:self.size]:
+            e_sum += cluster.get_energy()
+        return e_sum/float(self.size)
+        
 

@@ -43,7 +43,6 @@ class Genetic_algorithm:
             xyz_file.close()
 
     def run(self):
-        self.mypop.print_energies()
         for generation in range(1,self.max_generation+1):
             print ("Generation "+str(generation))
             self.make_offspring()
@@ -51,5 +50,6 @@ class Genetic_algorithm:
             if self.remove_duplicates:
                 self.mypop.remove_duplicates()
             self.mypop.truncate()
-            self.mypop.print_energies()
+            print("Lowest energy: "+str(self.mypop.get_lowest_energy()))
+            print("Mean energy: "+str(self.mypop.get_mean_energy()))
     
