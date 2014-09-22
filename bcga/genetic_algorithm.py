@@ -7,13 +7,17 @@ from bcga.population import Population
 import crossover
 
 class Genetic_algorithm:
-    def __init__(self,natoms,pop_size=10,max_generation=10,mutant_rate=0.2,offspring=8,remove_duplicates=False):
+    def __init__(self,natoms,pop_size=10,max_generation=10,
+                 mutant_rate=0.2,offspring=8,remove_duplicates=False,
+                 mass_extinction=False,epoch_thresh=1.e-6):
         #Parameters
         self.max_generation = max_generation
         self.mutant_rate = mutant_rate
         self.offspring=offspring
         self.pop_size=pop_size
         self.remove_duplicates=remove_duplicates
+        self.mass_extinction=mass_extinction
+        self.epoch_thresh=epoch_thresh
         #Population
         self.mypop = Population(natoms,pop_size)
         #Evolutionary progress
@@ -62,4 +66,9 @@ class Genetic_algorithm:
             self.min_energy_series.append(self.mypop.get_lowest_energy())
             print("Lowest energy: "+str(self.mypop.get_lowest_energy()))
             print("Mean energy: "+str(self.mypop.get_mean_energy()))
+            if self.mass_extinction:
+                diff = self.mean_energy_series[-2]-self.mean_energy_series[-1]
+                if 0 < diff < self.epoch_thresh:
+                    print("New epoch. Energy change = "+str(diff))
+                    self.mypop.mass_extinction()
     
