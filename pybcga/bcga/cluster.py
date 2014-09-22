@@ -35,6 +35,7 @@ class Cluster:
         quench = lambda coords : mylbfgs(self.coords, potential)
         res = quench(self.coords)
         self.energy = res.energy
+        self.coords=res.coords
         
     def z_sort(self):
         '''Re-orders the atoms in a cluster along the z-axis'''
@@ -48,4 +49,6 @@ class Cluster:
         '''Print coordinates of cluster to std out'''
         for i in range(0,self.natoms):
             print(str(i+1)+"\t"+str(self.coords[3*i:3*i+3]))
+            
+
         
