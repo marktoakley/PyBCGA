@@ -1,5 +1,5 @@
 '''
-@author: mark
+@author: Mark Oakley
 '''
 import numpy as np
 import random
@@ -31,6 +31,16 @@ class Genetic_algorithm:
         for mycluster in self.mypop.population:
             if np.random.uniform(0, 1) < self.mutant_rate:
                 self.mypop.population.append(mycluster.mutate_replace())
+                
+    def write_xyz(self,filename="cluster.xyz"):
+        '''Open an xyz file and write the current population to it'''
+        try:
+            xyz_file = open(filename,'w')
+            self.mypop.write_xyz(xyz_file)
+        except IOError as err:
+            print("File error: "+str(err))
+        finally:
+            xyz_file.close()
 
     def run(self):
         self.mypop.print_energies()

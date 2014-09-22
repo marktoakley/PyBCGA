@@ -36,3 +36,9 @@ class Population:
                 self.population.pop(i)
             else:
                 i = i +1
+    
+    def write_xyz(self,xyz_file):
+        '''Write the coordinates of the whole population to an xyz file.'''
+        for cluster in self.population:
+            cluster.write_xyz(xyz_file)
+
