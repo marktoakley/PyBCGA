@@ -8,12 +8,19 @@ import crossover
 
 class Genetic_algorithm:
     def __init__(self,natoms,pop_size=10,max_generation=10,mutant_rate=0.2,offspring=8,remove_duplicates=False):
+        #Parameters
         self.max_generation = max_generation
         self.mutant_rate = mutant_rate
-        self.mypop = Population(natoms,pop_size)
         self.offspring=offspring
         self.pop_size=pop_size
         self.remove_duplicates=remove_duplicates
+        #Population
+        self.mypop = Population(natoms,pop_size)
+        #Evolutionary progress
+        self.mean_energy_series=[]
+        self.mean_energy_series.append(self.mypop.get_mean_energy())
+        self.min_energy_series=[]
+        self.min_energy_series.append(self.mypop.get_lowest_energy())
     
 
     def make_offspring(self):
@@ -50,6 +57,9 @@ class Genetic_algorithm:
             if self.remove_duplicates:
                 self.mypop.remove_duplicates()
             self.mypop.truncate()
+            #Update time series
+            self.mean_energy_series.append(self.mypop.get_mean_energy())
+            self.min_energy_series.append(self.mypop.get_lowest_energy())
             print("Lowest energy: "+str(self.mypop.get_lowest_energy()))
             print("Mean energy: "+str(self.mypop.get_mean_energy()))
     
