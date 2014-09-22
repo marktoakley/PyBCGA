@@ -11,7 +11,3 @@ natoms = 13
 myga = ga(natoms,remove_duplicates=True,max_generation=5)
 myga.run()
 myga.write_xyz()
-
-
-
-

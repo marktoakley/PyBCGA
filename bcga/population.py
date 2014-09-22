@@ -7,9 +7,9 @@ from bcga.cluster import Cluster
 class Population:
     def __init__(self,natoms,size=10):
         self.size=size
+        self.natoms=natoms
         self.population=[]
-        while self.population.__len__()<self.size:
-            self.population.append(Cluster(natoms))
+        self.fill()
         self.sort_energy()
             
     def print_energies(self):
@@ -53,5 +53,17 @@ class Population:
         for cluster in self.population[0:self.size]:
             e_sum += cluster.get_energy()
         return e_sum/float(self.size)
-        
+
+    def fill(self):
+        '''Fill population with random structures'''
+        while self.population.__len__() < self.size:
+            self.population.append(Cluster(self.natoms))
+            
+    def mass_extinction(self,survivors=0):
+        '''Mass extinction event replaces whole population. Optionally a few survivors remain in the population'''
+        while self.population.__len__() > survivors:
+            self.population.pop()
+        print(self.population.__len__())
+        self.fill()
+        print(self.population.__len__())
 
