@@ -7,8 +7,7 @@ Atomic cluster.
 
 import numpy as np
 import pele.potentials.lj as lj
-import pele.basinhopping as bh
-from pele.takestep import displace
+from pele.optimize import mylbfgs
 
 class Cluster:
     def __init__(self,natoms):
@@ -16,12 +15,7 @@ class Cluster:
         self.natoms=natoms
         self.coords = np.random.uniform(-1, 1, [3*natoms]) * 0.7 * float(natoms)**(1./3)
 #        self.coords=(np.random.rand(natoms,3) -0.5) * 1.4 * float(natoms)
-        '''This is a really slow implementation, but it works for now.'''
-        potential = lj.LJ()
-        step = displace.RandomDisplacement(stepsize=0.5)
-        opt = bh.BasinHopping(self.coords, potential, takeStep=step)
-        opt.run(0)
-        self.energy = opt.markovE
+        self.minimise()
         
     def get_energy(self):
         """Energy of minimised cluster"""
@@ -29,3 +23,12 @@ class Cluster:
     
     def mutate_replace(self):
         return Cluster(self.natoms)
+    
+    def minimise(self): 
+        '''Minimise a Lennard-Jones cluster with the LBFGS minimiser.
+        Eventually, potential should be user-defined.'''
+        potential = lj.LJ()
+        quench = lambda coords : mylbfgs(self.coords, potential)
+        res = quench(self.coords)
+        self.energy = res.energy
+        
