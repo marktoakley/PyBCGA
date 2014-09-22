@@ -13,8 +13,8 @@ class Population:
         self.sort_energy()
             
     def print_energies(self):
-        for cluster in self.population:
-            print(cluster.get_energy())
+        for i in range(0,self.size):
+            print(str(i+1)+"\t"+str(self.population[i].get_energy()))
             
     def sort_energy(self):
         """Sort population by energy"""
