@@ -63,7 +63,5 @@ class Population:
         '''Mass extinction event replaces whole population. Optionally a few survivors remain in the population'''
         while self.population.__len__() > survivors:
             self.population.pop()
-        print(self.population.__len__())
         self.fill()
-        print(self.population.__len__())
 
