@@ -11,6 +11,10 @@ from pele.optimize import mylbfgs
 import math
 
 class Cluster:
+    '''An atomic cluster.
+    (Only single-component clusters are currently implemented).
+    Parameters:
+    natoms- Number of atoms in cluster.'''
     def __init__(self,natoms):
         '''Generate a random cluster'''
         self.natoms=natoms
@@ -19,18 +23,19 @@ class Cluster:
         self.quenched=False
         
     def get_energy(self):
-        """Energy of minimised cluster"""
+        '''Returns energy of minimised cluster'''
         if self.quenched==False:
             self.minimise()
             self.quenched=True
         return self.energy
     
     def mutate_replace(self):
+        '''Generate mutant by cluster replacement.'''
         return Cluster(self.natoms)
     
     def minimise(self): 
         '''Minimise a Lennard-Jones cluster with the LBFGS minimiser.
-        Eventually, potential should be user-defined.'''
+        (Eventually, other potentials will be available.)'''
         potential = lj.LJ()
         quench = lambda coords : mylbfgs(self.coords.flatten(), potential)
         res = quench(self.coords.flatten())
@@ -38,11 +43,11 @@ class Cluster:
         self.coords=np.reshape(res.coords,(-1,3))
         
     def z_sort(self):
-        '''Re-orders the atoms in a cluster along the z-axis'''
+        '''Re-orders the atoms in a cluster along the z-axis.'''
         self.coords=self.coords[np.lexsort(self.coords.T)]
         
     def print_coords(self):
-        '''Print coordinates of cluster to std out'''
+        '''Print coordinates of cluster to std out.'''
         for i in range(0,self.natoms):
             print(str(i+1)+"\t"+str(self.coords[i]))
             
@@ -56,7 +61,7 @@ class Cluster:
                        " "+str(self.coords[i,2])+"\n")
             
     def centre(self):
-        '''Translate cluster's centre of mass to origin'''
+        '''Translate cluster's centre of mass to origin.'''
         com=np.mean(self.coords,axis=0)
         self.coords=(self.coords-com)
         
@@ -77,11 +82,5 @@ class Cluster:
         rot[2,1] = -math.sin(theta)
         rot[2,2] = math.cos(theta)*math.cos(phi)
         self.coords=np.dot(self.coords,rot)
-        
-        
-        
-
-            
-
         
         

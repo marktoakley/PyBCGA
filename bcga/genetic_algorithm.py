@@ -7,8 +7,20 @@ from bcga.population import PopulationList
 import crossover
 
 class Genetic_algorithm:
+    '''The Birmingham Cluster Genetic Algorithm.
+    Parameters:
+    natoms- Number of atoms in cluster
+    Optional parameters:
+    pop_size- Number of clusters in population
+    max_generation- Number of generations to run GA
+    offspring- Number of crossover operations in each generation
+    mutant_rate- Probability of any cluster producing a mutant
+    remove_duplicates- Remove identical clusters from population to prevent stagnation
+    mass_extinction- Re-set population if population stagnates
+    epoch_threshold- Mean population energy change that initiates mass extinction
+    '''
     def __init__(self,natoms,pop_size=10,max_generation=10,
-                 mutant_rate=0.2,offspring=8,remove_duplicates=False,
+                 offspring=8,mutant_rate=0.2,remove_duplicates=False,
                  mass_extinction=False,epoch_thresh=1.e-6):
         #Parameters
         self.max_generation = max_generation
@@ -54,6 +66,7 @@ class Genetic_algorithm:
             xyz_file.close()
 
     def run(self):
+        '''Run the GA.'''
         for generation in range(1,self.max_generation+1):
             print ("Generation "+str(generation))
             self.make_offspring()

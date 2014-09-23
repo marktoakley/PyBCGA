@@ -4,7 +4,11 @@
 import numpy as np
 from bcga.cluster import Cluster
 def one_point(cluster1,cluster2):
-    '''Perform crossover using the Deaven-Ho cut-and-splice operation.'''
+    '''Perform crossover using the Deaven-Ho cut-and-splice operation.
+    Parameters:
+    Two Cluster objects.
+    Returns:
+    A Cluster object derived from the two parents.'''
     natoms=cluster1.natoms
     #Prepare clusters
     cluster1.centre()

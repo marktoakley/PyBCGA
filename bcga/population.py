@@ -5,6 +5,10 @@ Holds a population of structures for the BCGA.
 from bcga.cluster import Cluster
 
 class PopulationList(list):
+    '''Population of clusters (subclass of List)
+    Parameters:
+    size- Number of clusters in population
+    '''
     def __init__(self,natoms,size=10):
         list.__init__([])
         self.size=size
@@ -13,11 +17,12 @@ class PopulationList(list):
         self.sort_energy()
             
     def print_energies(self):
+        '''Print energies of clusters in population to std out.'''
         for i in range(0,self.size):
             print(str(i+1)+"\t"+str(self[i].get_energy()))
             
     def sort_energy(self):
-        """Sort population by energy"""
+        """Sort population by energy."""
         self.sort(key=lambda x: x.get_energy(), reverse=False)
         
     def truncate(self):
@@ -60,7 +65,8 @@ class PopulationList(list):
             self.append(Cluster(self.natoms))
             
     def mass_extinction(self,survivors=0):
-        '''Mass extinction event replaces whole population. Optionally a few survivors remain in the population'''
+        '''Mass extinction event replaces whole population.
+        Optionally a few survivors remain in the population.'''
         while self.__len__() > survivors:
             self.pop()
         self.fill()
