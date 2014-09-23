@@ -64,8 +64,7 @@ class Genetic_algorithm:
             #Update time series
             self.mean_energy_series.append(self.mypop.get_mean_energy())
             self.min_energy_series.append(self.mypop.get_lowest_energy())
-            print("Lowest energy: "+str(self.mypop.get_lowest_energy()))
-            print("Mean energy: "+str(self.mypop.get_mean_energy()))
+            print("Lowest energy: "+str(self.mypop.get_lowest_energy())+" Mean energy: "+str(self.mypop.get_mean_energy()))
             if self.mass_extinction:
                 diff = self.mean_energy_series[-2]-self.mean_energy_series[-1]
                 if 0 < diff < self.epoch_thresh:

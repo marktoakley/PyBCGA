@@ -8,6 +8,7 @@ Atomic cluster.
 import numpy as np
 import pele.potentials.lj as lj
 from pele.optimize import mylbfgs
+import math
 
 class Cluster:
     def __init__(self,natoms):
@@ -39,7 +40,6 @@ class Cluster:
     def z_sort(self):
         '''Re-orders the atoms in a cluster along the z-axis'''
         self.coords=self.coords[np.lexsort(self.coords.T)]
-        self.print_coords()
         
     def print_coords(self):
         '''Print coordinates of cluster to std out'''
@@ -59,6 +59,28 @@ class Cluster:
         '''Translate cluster's centre of mass to origin'''
         com=np.mean(self.coords,axis=0)
         self.coords=(self.coords-com)
+        
+    def rotate_random(self):
+        '''Rotate cluster to random orientation.
+        
+        This implementation is copied from the BCGA fortran code.'''
+        theta=np.random.rand()*math.pi*2.
+        phi= np.random.rand()*math.pi
+        rot=np.empty(shape=(3,3))
+        rot[0,0] = math.cos(phi)
+        rot[0,1] = 0.
+        rot[0,2] = -math.sin(phi)
+        rot[1,0] = math.sin(theta)*math.sin(phi)
+        rot[1,1] = math.cos(theta)
+        rot[1,2] = math.sin(theta)*math.cos(phi)
+        rot[2,0] = math.cos(theta)*math.sin(phi)
+        rot[2,1] = -math.sin(theta)
+        rot[2,2] = math.cos(theta)*math.cos(phi)
+        self.coords=np.dot(self.coords,rot)
+        
+        
+        
+
             
 
         
