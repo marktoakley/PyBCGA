@@ -54,6 +54,12 @@ class Cluster:
             xyz_file.write("X "+str(self.coords[i,0])+
                        " "+str(self.coords[i,1])+
                        " "+str(self.coords[i,2])+"\n")
+            
+    def centre(self):
+        '''Translate cluster's centre of mass to origin'''
+        com=np.mean(self.coords,axis=0)
+        self.coords=(self.coords-com)
+            
 
         
         
