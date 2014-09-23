@@ -3,7 +3,7 @@
 '''
 import numpy as np
 import random
-from bcga.population import Population
+from bcga.population import PopulationList
 import crossover
 
 class Genetic_algorithm:
@@ -18,8 +18,8 @@ class Genetic_algorithm:
         self.remove_duplicates=remove_duplicates
         self.mass_extinction=mass_extinction
         self.epoch_thresh=epoch_thresh
-        #Population
-        self.mypop = Population(natoms,pop_size)
+        #PopulationList
+        self.mypop = PopulationList(natoms,pop_size)
         #Evolutionary progress
         self.mean_energy_series=[]
         self.mean_energy_series.append(self.mypop.get_mean_energy())
@@ -31,17 +31,17 @@ class Genetic_algorithm:
         '''Add offspring clusters to population'''
         for i in range(0, self.offspring):
             indices = random.sample(xrange(0, self.pop_size), 2)
-            cluster1=self.mypop.population[indices[0]]
-            cluster2=self.mypop.population[indices[1]]
+            cluster1=self.mypop[indices[0]]
+            cluster2=self.mypop[indices[1]]
             mycluster=crossover.one_point(cluster1,cluster2)
-            self.mypop.population.append(mycluster)
+            self.mypop.append(mycluster)
 
 
     def make_mutants(self):
         '''Add mutant clusters to population'''
-        for mycluster in self.mypop.population:
+        for mycluster in self.mypop:
             if np.random.uniform(0, 1) < self.mutant_rate:
-                self.mypop.population.append(mycluster.mutate_replace())
+                self.mypop.append(mycluster.mutate_replace())
                 
     def write_xyz(self,filename="cluster.xyz"):
         '''Open an xyz file and write the current population to it'''
