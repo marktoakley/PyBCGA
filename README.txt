@@ -20,7 +20,7 @@ Compile with:
 
   $ python setup.py --help
   
-Then add the installation directory to your PYTHONPATH environment variables.
+Then add the installation directory to your PYTHONPATH environment variable.
 
 Usage
 =====
