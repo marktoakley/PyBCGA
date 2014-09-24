@@ -1,10 +1,11 @@
 import unittest
-from bcga.cluster import Cluster
+from bcga.cluster_factory import ClusterFactory
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
         self.natoms=10
-        self.cluster = Cluster(self.natoms)
+        factory =ClusterFactory(self.natoms)
+        self.cluster = factory.get_random_cluster()
         
     def test_z_sort(self):
         self.cluster.z_sort()

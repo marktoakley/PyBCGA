@@ -16,10 +16,9 @@ class Cluster:
     Parameters:
     natoms- Number of atoms in cluster.'''
     def __init__(self,natoms):
-        '''Generate a random cluster'''
+        '''Use the ClusterFactory class to make a new Cluster.
+        This method returns an empty cluster with no atomic coordinates.'''
         self.natoms=natoms
-#        self.coords = np.random.uniform(-1, 1, [3*natoms]) * 0.7 * float(natoms)**(1./3)
-        self.coords=(np.random.rand(natoms,3) -0.5) * 1.4 * float(natoms)
         self.quenched=False
         
     def get_energy(self):

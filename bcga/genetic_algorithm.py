@@ -5,7 +5,6 @@ import numpy as np
 import random
 from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
-import crossover
 
 class Genetic_algorithm:
     '''The Birmingham Cluster Genetic Algorithm.
@@ -33,7 +32,7 @@ class Genetic_algorithm:
         self.epoch_thresh=epoch_thresh
         self.factory=ClusterFactory(natoms)
         #PopulationList
-        self.mypop = PopulationList(natoms,pop_size)
+        self.mypop = PopulationList(natoms,self.factory,pop_size)
         #Evolutionary progress
         self.mean_energy_series=[]
         self.mean_energy_series.append(self.mypop.get_mean_energy())

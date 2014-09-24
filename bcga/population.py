@@ -9,10 +9,13 @@ class PopulationList(list):
     Parameters:
     size- Number of clusters in population
     '''
-    def __init__(self,natoms,size=10):
+    def __init__(self,natoms,factory,size=10):
         list.__init__([])
+        #Parameters
         self.size=size
         self.natoms=natoms
+        self.factory = factory
+        #Initialise population
         self.fill()
         self.sort_energy()
             
@@ -66,7 +69,7 @@ class PopulationList(list):
     def fill(self):
         '''Fill population with random structures'''
         while self.__len__() < self.size:
-            self.append(Cluster(self.natoms))
+            self.append(self.factory.get_random_cluster())
             
     def mass_extinction(self,survivors=0):
         '''Mass extinction event replaces whole population.

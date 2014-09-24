@@ -1,10 +1,12 @@
 import unittest
 from bcga.population import PopulationList
+from bcga.cluster_factory import ClusterFactory
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
-        self.natoms=10
-        self.population=PopulationList(self.natoms,size=5)
+        natoms=10
+        factory=ClusterFactory(natoms)
+        self.population=PopulationList(natoms,factory,size=5)
         
     def test_energy_sort(self):
         self.population.sort_energy()
