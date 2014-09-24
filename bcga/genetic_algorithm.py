@@ -4,6 +4,7 @@
 import numpy as np
 import random
 from bcga.population import PopulationList
+from bcga.cluster_factory import ClusterFactory
 import crossover
 
 class Genetic_algorithm:
@@ -30,6 +31,7 @@ class Genetic_algorithm:
         self.remove_duplicates=remove_duplicates
         self.mass_extinction=mass_extinction
         self.epoch_thresh=epoch_thresh
+        self.factory=ClusterFactory(natoms)
         #PopulationList
         self.mypop = PopulationList(natoms,pop_size)
         #Evolutionary progress
@@ -45,7 +47,7 @@ class Genetic_algorithm:
             indices = random.sample(xrange(0, self.pop_size), 2)
             cluster1=self.mypop[indices[0]]
             cluster2=self.mypop[indices[1]]
-            mycluster=crossover.one_point(cluster1,cluster2)
+            mycluster=self.factory.get_offspring(cluster1,cluster2)
             self.mypop.append(mycluster)
 
 
@@ -53,7 +55,7 @@ class Genetic_algorithm:
         '''Add mutant clusters to population'''
         for mycluster in self.mypop:
             if np.random.uniform(0, 1) < self.mutant_rate:
-                self.mypop.append(mycluster.mutate_replace())
+                self.mypop.append(self.factory.get_mutant(mycluster))
                 
     def write_xyz(self,filename="cluster.xyz"):
         '''Open an xyz file and write the current population to it'''

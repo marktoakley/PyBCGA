@@ -29,10 +29,6 @@ class Cluster:
             self.quenched=True
         return self.energy
     
-    def mutate_replace(self):
-        '''Generate mutant by cluster replacement.'''
-        return Cluster(self.natoms)
-    
     def minimise(self): 
         '''Minimise a Lennard-Jones cluster with the LBFGS minimiser.
         (Eventually, other potentials will be available.)'''
