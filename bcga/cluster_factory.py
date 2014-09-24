@@ -23,7 +23,7 @@ class ClusterFactory:
     def get_mutant(self,cluster):
         '''Generate a mutant structure from a parent structure.
         Currently, this randomises all of the coordinates in the mutant.'''
-        mutant=self.get_random_cluster(self.natoms)
+        mutant=self.get_random_cluster()
         return mutant
     
     def get_offspring(self,cluster0,cluster1):
