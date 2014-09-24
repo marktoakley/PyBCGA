@@ -47,6 +47,10 @@ class PopulationList(list):
         for cluster in self:
             cluster.write_xyz(xyz_file)
             
+    def get_energy(self,i):
+        '''Return energy of cluster at position i'''
+        return self[i].get_energy()
+    
     def get_lowest_energy(self):
         '''Return the energy of the most stable structure in the population.'''
         self.sort_energy()
