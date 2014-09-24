@@ -38,7 +38,6 @@ class Genetic_algorithm:
         self.mean_energy_series.append(self.mypop.get_mean_energy())
         self.min_energy_series=[]
         self.min_energy_series.append(self.mypop.get_lowest_energy())
-    
 
     def make_offspring(self):
         '''Add offspring clusters to population'''
@@ -49,7 +48,6 @@ class Genetic_algorithm:
             mycluster=self.factory.get_offspring(cluster1,cluster2)
             self.mypop.append(mycluster)
 
-
     def make_mutants(self):
         '''Add mutant clusters to population'''
         for mycluster in self.mypop:
@@ -59,12 +57,10 @@ class Genetic_algorithm:
     def write_xyz(self,filename="cluster.xyz"):
         '''Open an xyz file and write the current population to it'''
         try:
-            xyz_file = open(filename,'w')
-            self.mypop.write_xyz(xyz_file)
+            with open(filename,'w') as xyz_file:
+                self.mypop.write_xyz(xyz_file)
         except IOError as err:
             print("File error: "+str(err))
-        finally:
-            xyz_file.close()
 
     def run(self):
         '''Run the GA.'''

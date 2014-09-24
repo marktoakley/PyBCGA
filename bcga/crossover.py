@@ -11,12 +11,10 @@ def one_point(cluster1,cluster2):
     A Cluster object derived from the two parents.'''
     natoms=cluster1.natoms
     #Prepare clusters
-    cluster1.centre()
-    cluster1.rotate_random()
-    cluster1.z_sort()
-    cluster2.centre()
-    cluster2.rotate_random()
-    cluster2.z_sort()
+    for cluster in [cluster1,cluster2]:
+        cluster.centre()
+        cluster.rotate_random()
+        cluster.z_sort()
     #Choose cutting plane
     cut=np.random.randint(1,natoms)
     #Make new cluster
