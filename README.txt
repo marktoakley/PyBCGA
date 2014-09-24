@@ -5,7 +5,7 @@ Description
 ===========
 
 A Python version of the Birmingham Cluster Genetic Algorithm.
-The BCGA is decribed in Roy L. Johnston, 2003, 4193-4207 (http://dx.doi.org/10.1039/b305686d).
+The BCGA is decribed in Roy L. Johnston, Dalton Transactions, 2003, 4193-4207 (http://dx.doi.org/10.1039/b305686d).
 
 Installation
 ============
