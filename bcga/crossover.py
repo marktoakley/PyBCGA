@@ -18,10 +18,10 @@ def one_point(cluster1,cluster2):
     #Choose cutting plane
     cut=np.random.randint(1,natoms)
     #Make new cluster
-    mycluster=Cluster(natoms)
-    mycluster.coords=np.empty(shape=(natoms,3))
-    mycluster.coords[0:3*cut]=cluster1.coords[0:3*cut].copy()
-    mycluster.coords[3*cut:3*natoms]=cluster2.coords[3*cut:3*natoms].copy()
+    coords=np.empty(shape=(natoms,3))
+    coords[0:3*cut]=cluster1.coords[0:3*cut].copy()
+    coords[3*cut:3*natoms]=cluster2.coords[3*cut:3*natoms].copy()
+    mycluster=Cluster(natoms,coords)
     mycluster.quenched=False
 #    mycluster.print_coords()
     return mycluster

@@ -15,8 +15,8 @@ class ClusterFactory:
         
     def get_random_cluster(self):
         '''Return a cluster with random coordinates'''
-        cluster = Cluster(self.natoms)
-        cluster.coords=(np.random.rand(self.natoms,3) -0.5) * 1.4 * float(self.natoms)
+        coords=(np.random.rand(self.natoms,3) -0.5) * 1.4 * float(self.natoms)
+        cluster = Cluster(self.natoms,coords)
         cluster.quenched=False
         return cluster
     

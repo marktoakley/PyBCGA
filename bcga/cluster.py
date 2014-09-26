@@ -14,12 +14,14 @@ class Cluster:
     '''An atomic cluster.
     (Only single-component clusters are currently implemented).
     Parameters:
-    natoms- Number of atoms in cluster.'''
-    def __init__(self,natoms):
-        '''Use the ClusterFactory class to make a new Cluster.
-        This method returns an empty cluster with no atomic coordinates.'''
+    natoms- Number of atoms in cluster.
+    coords- a 3*natoms numpy array containing the cluster's atomic coordinates.'''
+    def __init__(self,natoms,coords):
+        '''Make a new cluster.
+        In most cases, use the ClusterFactory class to make a new Cluster.'''
         self.natoms=natoms
         self.quenched=False
+        self.coords=coords
         
     def get_energy(self):
         '''Returns energy of minimised cluster'''
