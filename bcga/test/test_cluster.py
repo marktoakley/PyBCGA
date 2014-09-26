@@ -17,6 +17,9 @@ class ClusterTest(unittest.TestCase):
    
     def test_get_energy(self):
         self.assertAlmostEquals(self.cluster.get_energy(),-3.)
+        
+    def test_centre(self):
+        self.assertEquals(self.cluster.centre()[1],-1.)
                 
 if __name__ == "__main__":
     unittest.main()

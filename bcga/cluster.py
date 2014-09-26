@@ -61,6 +61,7 @@ class Cluster:
         '''Translate cluster's centre of mass to origin.'''
         com=np.mean(self.coords,axis=0)
         self.coords=(self.coords-com)
+        return -com
         
     def rotate_random(self):
         '''Rotate cluster to random orientation.
