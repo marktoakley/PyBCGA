@@ -59,9 +59,10 @@ class Cluster:
         xyz_file.write(str(self.natoms)+"\n")
         xyz_file.write("Energy: "+str(self.get_energy())+"\n")
         for i in range(0,self.natoms):
-            xyz_file.write("X "+str(self._coords[i,0])+
-                       " "+str(self._coords[i,1])+
-                       " "+str(self._coords[i,2])+"\n")
+            xyz_file.write(self.labels[self.atom_types[i]]+
+                           " "+str(self._coords[i,0])+
+                           " "+str(self._coords[i,1])+
+                           " "+str(self._coords[i,2])+"\n")
             
     def centre(self):
         '''Translate cluster's centre of mass to origin.'''
