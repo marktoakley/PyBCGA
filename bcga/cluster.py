@@ -16,12 +16,16 @@ class Cluster:
     Parameters:
     natoms- Number of atoms in cluster.
     _coords- a 3*natoms numpy array containing the cluster's atomic coordinates.'''
-    def __init__(self,natoms,coords):
+    def __init__(self,natoms,coords,atom_types=[],labels=["X"]):
         '''Make a new cluster.
         In most cases, use the ClusterFactory class to make a new Cluster.'''
         self.natoms=natoms
         self.quenched=False
         self._coords=coords
+        self.labels=labels
+        if atom_types==[]:
+            atom_types=[0]*natoms
+        self.atom_types=atom_types
         
     def get_energy(self):
         '''Returns energy of minimised cluster'''
@@ -41,8 +45,9 @@ class Cluster:
         
     def z_sort(self):
         '''Re-orders the atoms in a cluster along the z-axis.'''
-        self._coords=self._coords[np.lexsort(self._coords.T)]
-        #indices=self._coords[:,2].argsort()
+        #self._coords=self._coords[np.lexsort(self._coords.T)]
+        indices=self._coords[:,2].argsort()
+        self.re_order(indices)
         
     def print_coords(self):
         '''Print coordinates of cluster to std out.'''
@@ -85,6 +90,20 @@ class Cluster:
     def get_coords(self,i):
         '''Return a copy of the coordinates of atom i.'''
         return self._coords[i,:].copy()
+    
+    def re_order(self,indices):
+        '''Re-order the atoms in a cluster'''
+        new_coor=np.empty(shape=(self.natoms,3))
+        new_types=[0]*self.natoms
+        for i in range(0,self.natoms):
+            new_coor[i]=self._coords[indices[i],:]
+            new_types[i]=self.atom_types[indices[i]]
+        self._coords=new_coor
+        self.atom_types=new_types
+        
+    def get_label(self,i):
+        '''Return the string corresponding to the atom at index i.'''
+        return self.labels[self.atom_types[i]]
     
     
         
