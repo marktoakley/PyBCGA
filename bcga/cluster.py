@@ -15,13 +15,13 @@ class Cluster:
     (Only single-component clusters are currently implemented).
     Parameters:
     natoms- Number of atoms in cluster.
-    coords- a 3*natoms numpy array containing the cluster's atomic coordinates.'''
+    _coords- a 3*natoms numpy array containing the cluster's atomic coordinates.'''
     def __init__(self,natoms,coords):
         '''Make a new cluster.
         In most cases, use the ClusterFactory class to make a new Cluster.'''
         self.natoms=natoms
         self.quenched=False
-        self.coords=coords
+        self._coords=coords
         
     def get_energy(self):
         '''Returns energy of minimised cluster'''
@@ -34,33 +34,34 @@ class Cluster:
         '''Minimise a Lennard-Jones cluster with the LBFGS minimiser.
         (Eventually, other potentials will be available.)'''
         potential = lj.LJ()
-        quench = lambda coords : mylbfgs(self.coords.flatten(), potential)
-        res = quench(self.coords.flatten())
+        quench = lambda coords : mylbfgs(self._coords.flatten(), potential)
+        res = quench(self._coords.flatten())
         self.energy = res.energy
-        self.coords=np.reshape(res.coords,(-1,3))
+        self._coords=np.reshape(res._coords,(-1,3))
         
     def z_sort(self):
         '''Re-orders the atoms in a cluster along the z-axis.'''
-        self.coords=self.coords[np.lexsort(self.coords.T)]
+        self._coords=self._coords[np.lexsort(self._coords.T)]
+        #indices=self._coords[:,2].argsort()
         
     def print_coords(self):
         '''Print coordinates of cluster to std out.'''
         for i in range(0,self.natoms):
-            print(str(i+1)+"\t"+str(self.coords[i]))
+            print(str(i+1)+"\t"+str(self._coords[i]))
             
     def write_xyz(self,xyz_file):
         '''Write the cluster's coordinates to an xyz file.'''
         xyz_file.write(str(self.natoms)+"\n")
         xyz_file.write("Energy: "+str(self.get_energy())+"\n")
         for i in range(0,self.natoms):
-            xyz_file.write("X "+str(self.coords[i,0])+
-                       " "+str(self.coords[i,1])+
-                       " "+str(self.coords[i,2])+"\n")
+            xyz_file.write("X "+str(self._coords[i,0])+
+                       " "+str(self._coords[i,1])+
+                       " "+str(self._coords[i,2])+"\n")
             
     def centre(self):
         '''Translate cluster's centre of mass to origin.'''
-        com=np.mean(self.coords,axis=0)
-        self.coords=(self.coords-com)
+        com=np.mean(self._coords,axis=0)
+        self._coords=(self._coords-com)
         return -com
         
     def rotate_random(self):
@@ -79,6 +80,12 @@ class Cluster:
         rot[2,0] = math.cos(theta)*math.sin(phi)
         rot[2,1] = -math.sin(theta)
         rot[2,2] = math.cos(theta)*math.cos(phi)
-        self.coords=np.dot(self.coords,rot)
+        self._coords=np.dot(self._coords,rot)
+        
+    def get_coords(self,i):
+        '''Return the coordinates of atom i'''
+        return self._coords[i,:]
+    
+    
         
         
