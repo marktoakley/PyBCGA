@@ -19,7 +19,8 @@ class Genetic_algorithm:
     mass_extinction- Re-set population if population stagnates
     epoch_threshold- Mean population energy change that initiates mass extinction
     '''
-    def __init__(self,natoms,pop_size=10,max_generation=10,
+    def __init__(self,natoms,cluster_factory,
+                 pop_size=10,max_generation=10,
                  offspring=8,mutant_rate=0.2,remove_duplicates=False,
                  mass_extinction=False,epoch_thresh=1.e-6):
         #Parameters
@@ -30,7 +31,7 @@ class Genetic_algorithm:
         self.remove_duplicates=remove_duplicates
         self.mass_extinction=mass_extinction
         self.epoch_thresh=epoch_thresh
-        self.factory=ClusterFactory(natoms)
+        self.factory=cluster_factory
         #PopulationList
         self.mypop = PopulationList(natoms,self.factory,pop_size)
         #Evolutionary progress
