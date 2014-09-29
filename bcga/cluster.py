@@ -83,8 +83,8 @@ class Cluster:
         self._coords=np.dot(self._coords,rot)
         
     def get_coords(self,i):
-        '''Return the coordinates of atom i'''
-        return self._coords[i,:]
+        '''Return a copy of the coordinates of atom i.'''
+        return self._coords[i,:].copy()
     
     
         

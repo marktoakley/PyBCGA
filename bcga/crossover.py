@@ -23,9 +23,6 @@ def one_point(cluster1,cluster2):
         coords[i]=cluster1.get_coords(i)
     for i in range(cut,natoms):
         coords[i]=cluster2.get_coords(i)
-    #coords[0:3*cut]=cluster1.coords[0:3*cut].copy()
-    #coords[3*cut:3*natoms]=cluster2.coords[3*cut:3*natoms].copy()
     mycluster=Cluster(natoms,coords)
     mycluster.quenched=False
-#    mycluster.print_coords()
     return mycluster
