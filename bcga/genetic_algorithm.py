@@ -4,7 +4,6 @@
 import numpy as np
 import random
 from bcga.population import PopulationList
-from bcga.cluster_factory import ClusterFactory
 
 class Genetic_algorithm:
     '''The Birmingham Cluster Genetic Algorithm.

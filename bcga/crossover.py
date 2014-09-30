@@ -19,10 +19,13 @@ def one_point(cluster1,cluster2):
     cut=np.random.randint(1,natoms)
     #Make new cluster
     coords=np.empty(shape=(natoms,3))
+    atom_types=[]
     for i in range(0,cut):
         coords[i]=cluster1.get_coords(i)
+        atom_types.append(cluster1.atom_types[i])
     for i in range(cut,natoms):
         coords[i]=cluster2.get_coords(i)
-    mycluster=Cluster(natoms,coords)
+        atom_types.append(cluster2.atom_types[i])
+    mycluster=Cluster(natoms,coords,atom_types=atom_types)
     mycluster.quenched=False
     return mycluster
