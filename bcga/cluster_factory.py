@@ -3,7 +3,6 @@
 '''
 import numpy as np
 from bcga.cluster import Cluster
-from bcga.crossover import one_point
 
 class ClusterFactory:
     '''Builds clusters.
@@ -29,8 +28,25 @@ class ClusterFactory:
         return mutant
     
     def get_offspring(self,cluster0,cluster1):
-        '''Generate an offspring structure from two parent structures.'''
-        offspring=one_point(cluster0,cluster1)
-        offspring.labels=self.labels
+        '''Generate an offspring structure from two parent structures.
+        This uses the Deaven-Ho cut-and-splice method.'''
+        #Prepare clusters
+        for cluster in [cluster0,cluster1]:
+            cluster.centre()
+            cluster.rotate_random()
+            cluster.z_sort()
+        #Choose cutting plane
+        cut=np.random.randint(1,self.natoms)
+        #Make new cluster
+        coords=np.empty(shape=(self.natoms,3))
+        atom_types=[]
+        for i in range(0,cut):
+            coords[i]=cluster0.get_coords(i)
+            atom_types.append(cluster0.atom_types[i])
+        for i in range(cut,self.natoms):
+            coords[i]=cluster1.get_coords(i)
+            atom_types.append(cluster1.atom_types[i])
+        offspring=Cluster(self.natoms,coords,atom_types=atom_types,labels=self.labels)
+        offspring.quenched=False
         return offspring
         
