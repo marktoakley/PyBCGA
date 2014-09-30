@@ -42,7 +42,7 @@ class ClusterFactory:
         for cluster in [cluster0,cluster1]:
             cluster.centre()
             cluster.rotate_random()
-            cluster.z_sort()
+            cluster.sort_z()
         #Choose cutting plane
         cut=np.random.randint(1,self.natoms)
         #Make new cluster
@@ -57,6 +57,9 @@ class ClusterFactory:
         atom_types=self.fix_composition(atom_types)
         offspring=Cluster(self.natoms,coords,atom_types=atom_types,labels=self.labels)
         offspring.quenched=False
+        offspring.sort_type()
+        cluster0.sort_type()
+        cluster1.sort_type()
         return offspring
     
     def get_atom_types(self):

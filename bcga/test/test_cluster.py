@@ -11,7 +11,7 @@ class ClusterTest(unittest.TestCase):
         self.cluster = Cluster(self.natoms,coords)
         
     def test_z_sort(self):
-        self.cluster.z_sort()
+        self.cluster.sort_z()
         for i in range(1,self.natoms):
             self.assertGreater(self.cluster.get_coords(i)[2],
                                self.cluster.get_coords(i-1)[2])
@@ -46,7 +46,7 @@ class BinaryClusterTest(unittest.TestCase):
         self.assertEquals(self.cluster.get_label(2),"X")
 
     def test_sort_labels(self):
-        self.cluster.z_sort()
+        self.cluster.sort_z()
         self.assertEquals(self.cluster.get_label(0),"X")
         self.assertEquals(self.cluster.get_label(1),"X")
         self.assertEquals(self.cluster.get_label(2),"Y")    

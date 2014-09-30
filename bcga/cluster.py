@@ -42,10 +42,14 @@ class Cluster:
         res = quench(self._coords.flatten())
         self.energy = res.energy
         self._coords=np.reshape(res._coords,(-1,3))
+    
+    def sort_type(self):
+        '''Re-orders the atoms by atom type'''
+        indices=sorted(range(len(self.atom_types)), key = self.atom_types.__getitem__)
+        self.re_order(indices)
         
-    def z_sort(self):
-        '''Re-orders the atoms in a cluster along the z-axis.'''
-        #self._coords=self._coords[np.lexsort(self._coords.T)]
+    def sort_z(self):
+        '''Re-orders the atoms along the z-axis.'''
         indices=self._coords[:,2].argsort()
         self.re_order(indices)
         
