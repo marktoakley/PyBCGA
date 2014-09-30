@@ -4,11 +4,13 @@
 import unittest
 from bcga.genetic_algorithm import Genetic_algorithm
 from bcga.cluster_factory import ClusterFactory
+from pele.systems.ljcluster import LJCluster
 
 class GATest(unittest.TestCase):
     def setUp(self):
         natoms=10
-        factory=ClusterFactory(natoms)
+        system=LJCluster(natoms)
+        factory=ClusterFactory(natoms,system)
         self.ga=Genetic_algorithm(natoms,factory,max_generation=2)
         
     def test_run(self):

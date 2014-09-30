@@ -3,6 +3,7 @@
 '''
 import numpy as np
 from bcga.cluster import Cluster
+import pele.potentials.lj as lj
 
 class ClusterFactory:
     '''Builds clusters.
@@ -10,20 +11,21 @@ class ClusterFactory:
     natoms- Number of atoms in cluster.
     composition- List containing number of atoms of each type.
     labels- List containing names of each atom type.'''
-    def __init__(self,natoms,composition=[],labels=["X"]):
+    def __init__(self,natoms,system,composition=[],labels=["X"]):
         self.natoms=natoms
         if composition==[]:
             self.composition=[natoms]
         else:
             self.composition=composition
         self.labels=labels
-        #self.potential = lj.LJ()
+        self.system=system
         
     def get_random_cluster(self):
         '''Return a cluster with random coordinates'''
         coords=(np.random.rand(self.natoms,3) -0.5) * 1.4 * float(self.natoms)
         cluster = Cluster(self.natoms,
                           coords,
+                          self.system,
                           atom_types=self.get_atom_types(),
                           labels=self.labels)
         cluster.quenched=False
@@ -55,7 +57,11 @@ class ClusterFactory:
             coords[i]=cluster1.get_coords(i)
             atom_types.append(cluster1.atom_types[i])
         atom_types=self.fix_composition(atom_types)
-        offspring=Cluster(self.natoms,coords,atom_types=atom_types,labels=self.labels)
+        offspring=Cluster(self.natoms,
+                          coords,
+                          self.system,
+                          atom_types=atom_types,
+                          labels=self.labels)
         offspring.quenched=False
         offspring.sort_type()
         cluster0.sort_type()

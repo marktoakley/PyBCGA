@@ -1,14 +1,16 @@
 import unittest
 from bcga.cluster import Cluster
 import numpy as np
+from pele.systems.ljcluster import LJCluster
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
         self.natoms=3
+        system=LJCluster(self.natoms)
         coords=np.array(((0.,0.,0.1),
                          (1.,1.,0.3),
                          (0.,2.,0.2)))
-        self.cluster = Cluster(self.natoms,coords)
+        self.cluster = Cluster(self.natoms,coords,system)
         
     def test_z_sort(self):
         self.cluster.sort_z()
@@ -33,12 +35,14 @@ class ClusterTest(unittest.TestCase):
 class BinaryClusterTest(unittest.TestCase):
     def setUp(self):
         self.natoms=3
+        system=LJCluster(self.natoms)
         coords=np.array(((0.,0.,0.1),
                          (1.,1.,0.3),
                          (0.,2.,0.2)))
         types=[0,1,0]
         labels=["X","Y"]
-        self.cluster = Cluster(self.natoms,coords,atom_types=types,labels=labels)
+        self.cluster = Cluster(self.natoms,coords,system,
+                               atom_types=types,labels=labels)
     
     def test_labels(self):
         self.assertEquals(self.cluster.get_label(0),"X")
