@@ -7,17 +7,25 @@ from bcga.cluster import Cluster
 class ClusterFactory:
     '''Builds clusters.
     Parameters:
-    natoms- Number of atoms in cluster.'''
-    def __init__(self,natoms,atom_types=[],labels=["X"]):
+    natoms- Number of atoms in cluster.
+    composition- List containing number of atoms of each type.
+    labels- List containing names of each atom type.'''
+    def __init__(self,natoms,composition=[],labels=["X"]):
         self.natoms=natoms
-        self.atom_types=atom_types
+        if composition==[]:
+            self.composition=[natoms]
+        else:
+            self.composition=composition
         self.labels=labels
         #self.potential = lj.LJ()
         
     def get_random_cluster(self):
         '''Return a cluster with random coordinates'''
         coords=(np.random.rand(self.natoms,3) -0.5) * 1.4 * float(self.natoms)
-        cluster = Cluster(self.natoms,coords,self.atom_types,self.labels)
+        cluster = Cluster(self.natoms,
+                          coords,
+                          atom_types=self.get_atom_types(),
+                          labels=self.labels)
         cluster.quenched=False
         return cluster
     
@@ -49,4 +57,15 @@ class ClusterFactory:
         offspring=Cluster(self.natoms,coords,atom_types=atom_types,labels=self.labels)
         offspring.quenched=False
         return offspring
+    
+    def get_atom_types(self):
+        '''
+        Return an atom_types array (needed for creation of new random clusters).
+        '''
+        atom_types=[]
+        for i in range(0,len(self.composition)):
+            for j in range(0,self.composition[i]):
+                atom_types.append(i)
+        return atom_types
+            
         

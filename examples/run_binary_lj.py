@@ -8,9 +8,9 @@ from bcga.genetic_algorithm import Genetic_algorithm as ga
 from bcga.cluster_factory import ClusterFactory
 
 natoms = 13
-atom_types=[0,0,0,0,0,1,1,1,1,1,1,1,1]
-labels=["A","B"]
-factory=ClusterFactory(natoms,atom_types,labels)
+factory=ClusterFactory(natoms,
+                       composition=[5,8],
+                       labels=["A","B"])
 
 myga = ga(natoms,factory,remove_duplicates=True,max_generation=10)
 myga.run()

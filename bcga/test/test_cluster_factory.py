@@ -21,7 +21,7 @@ class BinaryFactoryTest(unittest.TestCase):
     def setUp(self):
         natoms=10
         self.factory=ClusterFactory(natoms,
-                                    atom_types=[0,0,0,0,0,1,1,1,1,1],
+                                    composition=[5,5],
                                     labels=["A","B"])
         
     def test_label(self):
