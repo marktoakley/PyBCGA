@@ -38,9 +38,9 @@ class PopulationList(list):
         '''Duplicate predator deletes duplicate structures (defined by energy difference below threshold).'''
         self.sort_energy()
         i=1
-        while i < self.__len__():
+        while i < len(self):
             diff = self[i].get_energy()-self[i-1].get_energy()
-            if diff < threshold:
+            if (diff < threshold) & (len(self)>self.size):
                 self.pop(i)
             else:
                 i = i +1
