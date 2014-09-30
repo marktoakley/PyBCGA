@@ -54,6 +54,7 @@ class ClusterFactory:
         for i in range(cut,self.natoms):
             coords[i]=cluster1.get_coords(i)
             atom_types.append(cluster1.atom_types[i])
+        atom_types=self.fix_composition(atom_types)
         offspring=Cluster(self.natoms,coords,atom_types=atom_types,labels=self.labels)
         offspring.quenched=False
         return offspring
@@ -67,5 +68,24 @@ class ClusterFactory:
             for j in range(0,self.composition[i]):
                 atom_types.append(i)
         return atom_types
+    
+    def fix_composition(self,in_types):
+        '''Returns an atom_types array with the correct composition'''
+        wrong_composition = True
+        while wrong_composition:
+            if self.get_composition(in_types)[0]==self.composition[0]:
+                wrong_composition=False
+            if self.get_composition(in_types)[0]>self.composition[0]:
+                in_types[np.random.randint(0,self.natoms)]=1
+            if self.get_composition(in_types)[0]<self.composition[0]:
+                in_types[np.random.randint(0,self.natoms)]=0
+        return in_types
+    
+    def get_composition(self,atom_types):
+        '''Return a list containing the number of atoms of each type.'''
+        composition = [0] *len(self.labels)
+        for i in atom_types:
+            composition[i]+=1
+        return composition
             
         
