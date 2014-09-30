@@ -2,6 +2,7 @@ import unittest
 from bcga.cluster import Cluster
 import numpy as np
 from pele.systems.ljcluster import LJCluster
+from pele.systems.bljcluster import BLJCluster
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
@@ -35,7 +36,7 @@ class ClusterTest(unittest.TestCase):
 class BinaryClusterTest(unittest.TestCase):
     def setUp(self):
         self.natoms=3
-        system=LJCluster(self.natoms)
+        system=BLJCluster(3,1)
         coords=np.array(((0.,0.,0.1),
                          (1.,1.,0.3),
                          (0.,2.,0.2)))

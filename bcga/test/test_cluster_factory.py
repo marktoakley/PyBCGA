@@ -1,6 +1,7 @@
 import unittest
 from bcga.cluster_factory import ClusterFactory
 from pele.systems.ljcluster import LJCluster
+from pele.systems.bljcluster import BLJCluster
 
 class ClusterFactoryTest(unittest.TestCase):
     def setUp(self):
@@ -22,7 +23,7 @@ class ClusterFactoryTest(unittest.TestCase):
 class BinaryFactoryTest(unittest.TestCase):
     def setUp(self):
         natoms=10
-        system=LJCluster(natoms)
+        system=BLJCluster(natoms,5)
         self.factory=ClusterFactory(natoms,system,
                                     composition=[5,5],
                                     labels=["A","B"])
