@@ -11,14 +11,14 @@ class ClusterFactory:
     natoms- Number of atoms in cluster.
     composition- List containing number of atoms of each type.
     labels- List containing names of each atom type.'''
-    def __init__(self,natoms,system,composition=[],labels=["X"]):
+    def __init__(self,natoms,minimiser,composition=[],labels=["X"]):
         self.natoms=natoms
         if composition==[]:
             self.composition=[natoms]
         else:
             self.composition=composition
         self.labels=labels
-        self.system=system
+        self.system=minimiser
         
     def get_random_cluster(self):
         '''Return a cluster with random coordinates'''

@@ -2,12 +2,13 @@ import unittest
 from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
 from pele.systems.ljcluster import LJCluster
+from bcga.minimiser import PeleMinimiser
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
         natoms=10
-        system=LJCluster(natoms)
-        factory=ClusterFactory(natoms,system)
+        minimiser=PeleMinimiser(LJCluster(natoms))
+        factory=ClusterFactory(natoms,minimiser)
         self.population=PopulationList(natoms,factory,size=5)
         
     def test_energy_sort(self):

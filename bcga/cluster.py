@@ -16,14 +16,14 @@ class Cluster:
     Parameters:
     natoms- Number of atoms in cluster.
     _coords- a 3*natoms numpy array containing the cluster's atomic coordinates.'''
-    def __init__(self,natoms,coords,system,atom_types=[],labels=["X"]):
+    def __init__(self,natoms,coords,minimiser,atom_types=[],labels=["X"]):
         '''Make a new cluster.
         In most cases, use the ClusterFactory class to make a new Cluster.'''
         self.natoms=natoms
         self.quenched=False
         self._coords=coords
         self.labels=labels
-        self.system=system
+        self.minimiser=minimiser
         if atom_types==[]:
             atom_types=[0]*natoms
         self.atom_types=atom_types
@@ -38,12 +38,8 @@ class Cluster:
     def minimise(self): 
         '''Minimise a Lennard-Jones cluster with the LBFGS minimiser.
         (Eventually, other potentials will be available.)'''
-        quench = self.system.get_minimizer()
-        res = quench(self._coords.flatten())
-        self.energy = res.energy
-        self._coords=np.reshape(res.coords,(-1,3))
-
-    
+        self.minimiser.minimise(self)
+  
     def sort_type(self):
         '''Re-orders the atoms by atom type'''
         indices=sorted(range(len(self.atom_types)), key = self.atom_types.__getitem__)

@@ -7,10 +7,11 @@ Run the BCGA
 from bcga.genetic_algorithm import GeneticAlgorithm
 from bcga.cluster_factory import ClusterFactory
 from pele.systems.ljcluster import LJCluster
+from bcga.minimiser import PeleMinimiser
 
 natoms = 13
-system=LJCluster(natoms)
-factory=ClusterFactory(natoms,system)
+minimiser=PeleMinimiser(LJCluster(natoms))
+factory=ClusterFactory(natoms,minimiser)
 
 myga = GeneticAlgorithm(natoms,factory,remove_duplicates=True,max_generation=10)
 myga.run()

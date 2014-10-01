@@ -7,6 +7,6 @@ from pele.systems.ljcluster import LJCluster
 from bcga.cluster_factory import ClusterFactory
 
 natoms=13
-system = LJCluster(13)
-factory=ClusterFactory(13,system)
+minimiser = LJCluster(13)
+factory=ClusterFactory(13,minimiser)
 cProfile.run('GeneticAlgorithm(13,factory).run()')
