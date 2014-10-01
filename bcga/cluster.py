@@ -6,8 +6,6 @@ Atomic cluster.
 '''
 
 import numpy as np
-import pele.potentials.lj as lj
-from pele.optimize import mylbfgs
 import math
 
 class Cluster:

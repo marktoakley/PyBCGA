@@ -3,7 +3,6 @@
 '''
 import numpy as np
 from bcga.cluster import Cluster
-import pele.potentials.lj as lj
 
 class ClusterFactory:
     '''Builds clusters.

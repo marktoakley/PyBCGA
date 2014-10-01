@@ -31,7 +31,7 @@ class PopulationList(list):
     def truncate(self):
         """Remove worst clusters from population until population is below maximum size"""
         self.sort_energy()
-        while self.__len__() > self.size:
+        while len(self) > self.size:
             self.pop()
             
     def remove_duplicates(self,threshold=1e-6):
@@ -68,13 +68,13 @@ class PopulationList(list):
 
     def fill(self):
         '''Fill population with random structures'''
-        while self.__len__() < self.size:
+        while len(self) < self.size:
             self.append(self.factory.get_random_cluster())
             
     def mass_extinction(self,survivors=0):
         '''Mass extinction event replaces whole population.
         Optionally a few survivors remain in the population.'''
-        while self.__len__() > survivors:
+        while len(self) > survivors:
             self.pop()
         self.fill()
 
