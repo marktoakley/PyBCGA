@@ -5,7 +5,7 @@ import numpy as np
 import random
 from bcga.population import PopulationList
 
-class Genetic_algorithm:
+class GeneticAlgorithm:
     '''The Birmingham Cluster Genetic Algorithm.
     Parameters:
     natoms- Number of atoms in cluster
