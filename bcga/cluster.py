@@ -107,6 +107,21 @@ class Cluster:
         '''Return the string corresponding to the atom at index i.'''
         return self.labels[self.atom_types[i]]
     
+    def fix_overlaps(self):
+        '''Fix overlapping atoms (useful for GA-DFT)'''
+        converged = False
+        while converged==False:
+            converged=True
+            moves=np.zeros(shape=(self.natoms,3))
+            for i in range (0,self.natoms):
+                for j in range (i+1,self.natoms):
+                    vec=self._coords[i,:] - self._coords[j,:]
+                    if vec.dot(vec) < 1.0:
+                        moves[i,:]+=vec*0.1
+                        moves[j,:]-=vec*0.1
+                        converged=False
+            self._coords+=moves
+    
     
         
         
