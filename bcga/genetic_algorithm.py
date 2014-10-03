@@ -4,12 +4,16 @@
 import numpy as np
 import random
 from bcga.population import PopulationList
+from bcga.cluster_factory import ClusterFactory
 
 class GeneticAlgorithm:
     '''The Birmingham Cluster Genetic Algorithm.
     Parameters:
     natoms- Number of atoms in cluster
+    minimiser- See bcga.minimiser
     Optional parameters:
+    composition- A list containing the number of atoms of each type
+    labels- A list containing the names of each atom type
     pop_size- Number of clusters in population
     max_generation- Number of generations to run GA
     offspring- Number of crossover operations in each generation
@@ -18,9 +22,10 @@ class GeneticAlgorithm:
     mass_extinction- Re-set population if population stagnates
     epoch_threshold- Mean population energy change that initiates mass extinction
     '''
-    def __init__(self,natoms,cluster_factory,
+    def __init__(self,natoms,minimiser,
+                 composition="default",labels=["X"],
                  pop_size=10,max_generation=10,
-                 offspring=8,mutant_rate=0.2,remove_duplicates=False,
+                 offspring=8,mutant_rate=0.1,remove_duplicates=False,
                  mass_extinction=False,epoch_thresh=1.e-6):
         #Parameters
         self.max_generation = max_generation
@@ -30,7 +35,8 @@ class GeneticAlgorithm:
         self.remove_duplicates=remove_duplicates
         self.mass_extinction=mass_extinction
         self.epoch_thresh=epoch_thresh
-        self.factory=cluster_factory
+        #Factory
+        self.factory=ClusterFactory(natoms,minimiser,composition,labels)
         #PopulationList
         self.mypop = PopulationList(natoms,self.factory,pop_size)
         #Evolutionary progress

@@ -11,9 +11,9 @@ class ClusterFactory:
     natoms- Number of atoms in cluster.
     composition- List containing number of atoms of each type.
     labels- List containing names of each atom type.'''
-    def __init__(self,natoms,minimiser,composition=[],labels=["X"]):
+    def __init__(self,natoms,minimiser,composition="default",labels=["X"]):
         self.natoms=natoms
-        if composition==[]:
+        if composition=="default":
             self.composition=[natoms]
         else:
             self.composition=composition
