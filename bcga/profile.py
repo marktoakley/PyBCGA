@@ -5,8 +5,8 @@ import cProfile
 from bcga.genetic_algorithm import GeneticAlgorithm
 from pele.systems.ljcluster import LJCluster
 from bcga.cluster_factory import ClusterFactory
+from bcga.minimiser import PeleMinimiser
 
 natoms=13
-minimiser = LJCluster(13)
-factory=ClusterFactory(13,minimiser)
-cProfile.run('GeneticAlgorithm(13,factory).run()')
+minimiser = PeleMinimiser(LJCluster(13))
+cProfile.run('GeneticAlgorithm(13,minimiser).run()')
