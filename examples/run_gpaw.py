@@ -1,11 +1,10 @@
 '''
-Run the BCGA
+Example input file for PyBCGA-DFT using GPAW.
 
 @author: Mark Oakley
 '''
 
 from bcga.genetic_algorithm import GeneticAlgorithm
-from bcga.cluster_factory import ClusterFactory
 from bcga.minimiser import GPAWMinimiser
 
 natoms = 3

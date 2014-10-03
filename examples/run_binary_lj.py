@@ -1,5 +1,5 @@
 '''
-Run the BCGA
+Example PyBCGA input for a binary Lennar-Jones cluster.
 
 @author: Mark Oakley
 '''
