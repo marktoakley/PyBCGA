@@ -18,7 +18,7 @@ class PeleMinimiser():
         res = quench(cluster._coords.flatten())
         cluster.energy = res.energy
         cluster._coords=np.reshape(res.coords,(-1,3))
-        cluster.minimised = True
+        cluster.quenched = True
         return cluster
     
 class GPAWMinimiser():
@@ -49,7 +49,7 @@ class GPAWMinimiser():
             sys.exit()
         
         cluster.energy=mol.get_potential_energy()
-        cluster.minimised=True
+        cluster.quenched=True
         print("After")
         cluster.print_coords()
         return cluster
