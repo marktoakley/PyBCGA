@@ -1,5 +1,5 @@
 '''
-Example PyBCGA input for a binary Lennar-Jones cluster.
+Example PyBCGA input for a binary Lennard-Jones cluster.
 
 @author: Mark Oakley
 '''
