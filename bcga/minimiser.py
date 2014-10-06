@@ -23,9 +23,14 @@ class PeleMinimiser():
         return cluster
     
 class GPAWMinimiser():
-    '''Adapter for GPAW minimisation.'''
-    def __init__(self):
+    '''Adapter for GPAW minimisation.
+    Takes any parameters from the GPAW class.
+    If no parameters are defined, a PBE plane wave calculation is performed.'''
+    def __init__(self,**GPAWargs):
         '''Set up'''
+        if len(GPAWargs)==0:
+            GPAWargs={"mode":PW(),"xc":'PBE'}
+        self.GPAWargs=GPAWargs
         
     def minimise (self,cluster):
         cluster.fix_overlaps()
@@ -38,10 +43,7 @@ class GPAWMinimiser():
                       cell=(6.0,6.0,6.0))
         mol.center()
 
-        calc = GPAW(mode=PW(), 
-                    xc='PBE', 
-                    eigensolver='rmm-diis',
-                    occupations=FermiDirac(0.0, fixmagmom=True))
+        calc = GPAW(**self.GPAWargs)
 
         mol.set_calculator(calc)
         opt = BFGSLineSearch(mol)
