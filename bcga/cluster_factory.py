@@ -4,6 +4,7 @@
 import numpy as np
 from bcga.cluster import Cluster
 import pele.potentials.lj as lj
+from bcga.composition import *
 
 class ClusterFactory:
     '''Builds clusters.
@@ -26,7 +27,7 @@ class ClusterFactory:
         cluster = Cluster(self.natoms,
                           coords,
                           self.system,
-                          atom_types=self.get_atom_types(),
+                          atom_types=get_atom_types(self.composition),
                           labels=self.labels)
         cluster.quenched=False
         return cluster
@@ -56,7 +57,7 @@ class ClusterFactory:
         for i in range(cut,self.natoms):
             coords[i]=cluster1.get_coords(i)
             atom_types.append(cluster1.atom_types[i])
-        atom_types=self.fix_composition(atom_types)
+        atom_types=fix_composition(self.composition,atom_types)
         offspring=Cluster(self.natoms,
                           coords,
                           self.system,
@@ -68,33 +69,10 @@ class ClusterFactory:
         cluster1.sort_type()
         return offspring
     
-    def get_atom_types(self):
-        '''
-        Return an atom_types array (needed for creation of new random clusters).
-        '''
-        atom_types=[]
-        for i in range(0,len(self.composition)):
-            for j in range(0,self.composition[i]):
-                atom_types.append(i)
-        return atom_types
+
     
-    def fix_composition(self,in_types):
-        '''Returns an atom_types array with the correct composition'''
-        wrong_composition = True
-        while wrong_composition:
-            if self.get_composition(in_types)[0]==self.composition[0]:
-                wrong_composition=False
-            if self.get_composition(in_types)[0]>self.composition[0]:
-                in_types[np.random.randint(0,self.natoms)]=1
-            if self.get_composition(in_types)[0]<self.composition[0]:
-                in_types[np.random.randint(0,self.natoms)]=0
-        return in_types
+
     
-    def get_composition(self,atom_types):
-        '''Return a list containing the number of atoms of each type.'''
-        composition = [0] *len(self.labels)
-        for i in atom_types:
-            composition[i]+=1
-        return composition
+
             
         

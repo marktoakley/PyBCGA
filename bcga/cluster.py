@@ -121,7 +121,4 @@ class Cluster:
                         moves[j,:]-=vec*0.1
                         converged=False
             self._coords+=moves
-    
-    
-        
         
