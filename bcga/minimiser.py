@@ -7,6 +7,7 @@ from ase import *
 from gpaw import *
 from ase.optimize.bfgslinesearch import BFGSLineSearch
 from gpaw import GPAW, PW, FermiDirac
+from bcga.composition import get_composition
 
 class PeleMinimiser():
     '''Adapter for pele minimisation'''
@@ -28,9 +29,10 @@ class GPAWMinimiser():
         
     def minimise (self,cluster):
         cluster.fix_overlaps()
-        print("Before")
-        cluster.print_coords()
-        atom_string="He"+str(cluster.natoms)
+        atom_string=""
+        for i in range(0,len(cluster.labels)):
+            atom_string+=cluster.labels[i]+str(get_composition(cluster.atom_types)[i])
+        print(atom_string)
         mol = Atoms(atom_string,
                       positions=cluster._coords,
                       cell=(6.0,6.0,6.0))
@@ -50,6 +52,4 @@ class GPAWMinimiser():
         
         cluster.energy=mol.get_potential_energy()
         cluster.quenched=True
-        print("After")
-        cluster.print_coords()
         return cluster

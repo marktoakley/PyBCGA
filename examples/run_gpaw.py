@@ -10,7 +10,8 @@ from bcga.minimiser import GPAWMinimiser
 natoms = 3
 minimiser=GPAWMinimiser()
 myga = GeneticAlgorithm(natoms,minimiser,
-                        labels=["He"],
+                        labels=["He","Ne"],
+                        composition=[2,1],
                         pop_size=2,
                         max_generation=1)
 myga.run()
