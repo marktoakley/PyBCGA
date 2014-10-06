@@ -14,14 +14,14 @@ class Cluster:
     Parameters:
     natoms- Number of atoms in cluster.
     _coords- a 3*natoms numpy array containing the cluster's atomic coordinates.'''
-    def __init__(self,natoms,coords,system,atom_types=[],labels=["X"]):
+    def __init__(self,natoms,coords,minimiser,atom_types=[],labels=["X"]):
         '''Make a new cluster.
         In most cases, use the ClusterFactory class to make a new Cluster.'''
         self.natoms=natoms
         self.quenched=False
         self._coords=coords
         self.labels=labels
-        self.system=system
+        self.minimiser=minimiser
         if atom_types==[]:
             atom_types=[0]*natoms
         self.atom_types=atom_types
@@ -36,12 +36,8 @@ class Cluster:
     def minimise(self): 
         '''Minimise a Lennard-Jones cluster with the LBFGS minimiser.
         (Eventually, other potentials will be available.)'''
-        quench = self.system.get_minimizer()
-        res = quench(self._coords.flatten())
-        self.energy = res.energy
-        self._coords=np.reshape(res.coords,(-1,3))
-
-    
+        self.minimiser.minimise(self)
+  
     def sort_type(self):
         '''Re-orders the atoms by atom type'''
         indices=sorted(range(len(self.atom_types)), key = self.atom_types.__getitem__)
@@ -109,6 +105,19 @@ class Cluster:
         '''Return the string corresponding to the atom at index i.'''
         return self.labels[self.atom_types[i]]
     
-    
-        
+    def fix_overlaps(self,cutoff=1.0):
+        '''Fix overlapping atoms (useful for GA-DFT).
+        Any pairwise distances shorter than the cutoff are expanded.'''
+        converged = False
+        while converged==False:
+            converged=True
+            moves=np.zeros(shape=(self.natoms,3))
+            for i in range (0,self.natoms):
+                for j in range (i+1,self.natoms):
+                    vec=self._coords[i,:] - self._coords[j,:]
+                    if vec.dot(vec) < cutoff:
+                        moves[i,:]+=vec*0.1
+                        moves[j,:]-=vec*0.1
+                        converged=False
+            self._coords+=moves
         

@@ -2,12 +2,13 @@ import unittest
 from bcga.cluster_factory import ClusterFactory
 from pele.systems.ljcluster import LJCluster
 from pele.systems.bljcluster import BLJCluster
+from bcga.minimiser import PeleMinimiser
 
 class ClusterFactoryTest(unittest.TestCase):
     def setUp(self):
         natoms=10
-        system=LJCluster(natoms)
-        self.factory=ClusterFactory(natoms,system)
+        minimiser=PeleMinimiser(LJCluster(natoms))
+        self.factory=ClusterFactory(natoms,minimiser)
         
     def test_mutant(self):
         cluster = self.factory.get_random_cluster()
@@ -23,8 +24,8 @@ class ClusterFactoryTest(unittest.TestCase):
 class BinaryFactoryTest(unittest.TestCase):
     def setUp(self):
         natoms=10
-        system=BLJCluster(natoms,5)
-        self.factory=ClusterFactory(natoms,system,
+        minimiser=PeleMinimiser(BLJCluster(natoms,5))
+        self.factory=ClusterFactory(natoms,minimiser,
                                     composition=[5,5],
                                     labels=["A","B"])
         
