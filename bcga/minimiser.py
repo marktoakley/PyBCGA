@@ -33,7 +33,7 @@ class GPAWMinimiser():
         self.GPAWargs=GPAWargs
         
     def minimise (self,cluster):
-        cluster.fix_overlaps()
+        cluster.fix_overlaps(1.5)
         atom_string=""
         for i in range(0,len(cluster.labels)):
             atom_string+=cluster.labels[i]+str(get_composition(cluster.atom_types)[i])
