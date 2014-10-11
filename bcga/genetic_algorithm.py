@@ -17,6 +17,7 @@ class GeneticAlgorithm:
     labels- A list containing the names of each atom type
     pop_size- Number of clusters in population
     max_generation- Number of generations to run GA
+    selector- Selection method for choosing parents (see bcga.selector)
     offspring- Number of crossover operations in each generation
     mutant_rate- Probability of any cluster producing a mutant
     remove_duplicates- Remove identical clusters from population to prevent stagnation
@@ -52,9 +53,8 @@ class GeneticAlgorithm:
         '''Add offspring clusters to population'''
         for i in range(0, self.offspring):
             indices = self.selector.select(self.population)
-            cluster0=self.population[indices[0]]
-            cluster1=self.population[indices[1]]
-            mycluster=self.factory.get_offspring(cluster0,cluster1)
+            mycluster=self.factory.get_offspring(self.population[indices[0]],
+                                                 self.population[indices[1]])
             self.population.append(mycluster)
 
     def make_mutants(self):
@@ -89,4 +89,5 @@ class GeneticAlgorithm:
                 if 0 < diff < self.epoch_thresh:
                     print("New epoch. Energy change = "+str(diff))
                     self.population.mass_extinction()
+            self.write_xyz("restart.xyz")
     

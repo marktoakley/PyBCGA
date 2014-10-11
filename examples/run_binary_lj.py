@@ -19,4 +19,4 @@ myga = GeneticAlgorithm(natoms,minimiser,
                         remove_duplicates=True,
                         max_generation=50)
 myga.run()
-myga.write_xyz()
+#myga.write_xyz()
