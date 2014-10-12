@@ -68,10 +68,18 @@ class ClusterFactory:
         cluster1.sort_type()
         return offspring
     
-
-    
-
-    
-
-            
-        
+    def read_xyz(self,xyz_file):
+        '''Read structure from xyz file.'''
+        natoms=int(xyz_file.readline())
+        coords=np.empty(shape=(natoms,3))
+        energy=float(xyz_file.readline().split()[1])
+        for i in range(0,natoms):
+            coords[i]=xyz_file.readline().split()[1:4]
+        cluster=Cluster(natoms,
+                        coords,
+                        self.system,
+                        atom_types=get_atom_types(self.composition),
+                        labels=self.labels)
+        cluster.energy=energy
+        cluster.quenched=True
+        return cluster
