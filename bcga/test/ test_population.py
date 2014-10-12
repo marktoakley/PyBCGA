@@ -10,6 +10,7 @@ class ClusterTest(unittest.TestCase):
         minimiser=PeleMinimiser(LJCluster(natoms))
         factory=ClusterFactory(natoms,minimiser)
         self.population=PopulationList(natoms,factory,size=5)
+        self.population.fill()
         
     def test_energy_sort(self):
         self.population.sort_energy()

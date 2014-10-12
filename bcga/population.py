@@ -15,9 +15,6 @@ class PopulationList(list):
         self.size=size
         self.natoms=natoms
         self.factory = factory
-        #Initialise population
-        self.fill()
-        self.sort_energy()
             
     def print_energies(self):
         '''Print energies of clusters in population to std out.'''
@@ -49,6 +46,16 @@ class PopulationList(list):
         '''Write the coordinates of the whole population to an xyz file.'''
         for cluster in self:
             cluster.write_xyz(xyz_file)
+            
+    def read_xyz(self,xyz_file):
+        '''Read population from xyz file'''
+        end=False
+        while end==False:
+            try:
+                cluster=self.factory.read_xyz(xyz_file)
+                self.append(cluster)
+            except Exception:
+                end=True
             
     def get_energy(self,i):
         '''Return energy of cluster at position i'''

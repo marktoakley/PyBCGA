@@ -43,6 +43,8 @@ class GeneticAlgorithm:
         self.factory=ClusterFactory(natoms,minimiser,composition,labels)
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
+        self.population.fill()
+        self.population.sort_energy()
         #Evolutionary progress
         self.mean_energy_series=[]
         self.mean_energy_series.append(self.population.get_mean_energy())
