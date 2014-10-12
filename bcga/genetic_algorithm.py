@@ -23,13 +23,15 @@ class GeneticAlgorithm:
     remove_duplicates- Remove identical clusters from population to prevent stagnation
     mass_extinction- Re-set population if population stagnates
     epoch_threshold- Mean population energy change that initiates mass extinction
+    restart- Read population from restart.xyz and continue a search
     '''
     def __init__(self,natoms,minimiser,
                  composition="default",labels=["X"],
                  pop_size=10,max_generation=10,
                  selector=TournamentSelector(3),
                  offspring=8,mutant_rate=0.1,remove_duplicates=False,
-                 mass_extinction=False,epoch_thresh=1.e-6):
+                 mass_extinction=False,epoch_thresh=1.e-6,
+                 restart=False):
         #Parameters
         self.max_generation = max_generation
         self.mutant_rate = mutant_rate
@@ -43,8 +45,12 @@ class GeneticAlgorithm:
         self.factory=ClusterFactory(natoms,minimiser,composition,labels)
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
-        self.population.fill()
-        self.population.sort_energy()
+        if restart==False:
+            self.population.fill()
+            self.population.sort_energy()
+        else:
+            with open("restart.xyz",'r') as xyz_file:
+                self.population.read_xyz(xyz_file)
         #Evolutionary progress
         self.mean_energy_series=[]
         self.mean_energy_series.append(self.population.get_mean_energy())
