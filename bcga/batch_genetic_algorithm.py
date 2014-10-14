@@ -53,6 +53,7 @@ class BatchGeneticAlgorithm:
             
     def read_xyz(self,filename="restart.xyz"):
         '''Read population from an xyz file (non-blocking for now).'''
+        self.population.mass_extinction(0)
         try:
             with open("restart.xyz") as xyz_file:
                 self.population.read_xyz(xyz_file)
@@ -64,12 +65,20 @@ class BatchGeneticAlgorithm:
         for generation in range(1,self.max_generation+1):
             print ("Generation "+str(generation))
             self.read_xyz("restart.xyz")
+            print(len(self.population))
             if len(self.population) < self.population.size:
                 cluster=self.factory.get_random_cluster()
+                print("Filling population with random structure.")
             else:
-                indices = self.selector.select(self.population)
-                cluster=self.factory.get_offspring(self.population[indices[0]],
-                                                     self.population[indices[1]])
+                if np.random < self.mutant_rate:
+                    index=np.random.randint(0,len(self.population))
+                    cluster=self.factory.get_mutant(self.population[index])
+                    print("Generating mutant of cluster "+str(index))
+                else:
+                    indices = self.selector.select(self.population)
+                    cluster=self.factory.get_offspring(self.population[indices[0]],
+                                                       self.population[indices[1]])
+                    print("Generating offpsring of clusters "+str(indices[0])+" and "+str(indices[1]))
             cluster.minimise()
             self.read_xyz("restart.xyz")
             self.population.append(cluster)

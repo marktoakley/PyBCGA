@@ -14,7 +14,7 @@ minimiser=PeleMinimiser(LJCluster(natoms))
 myga = BatchGeneticAlgorithm(natoms,
                         minimiser,
                         remove_duplicates=True,
-                        max_generation=100)
+                        max_generation=10)
 
 myga.run()
 #myga.write_xyz()

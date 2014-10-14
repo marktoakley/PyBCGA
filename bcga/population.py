@@ -78,5 +78,4 @@ class PopulationList(list):
         Optionally a few survivors remain in the population.'''
         while len(self) > survivors:
             self.pop()
-        #self.fill()
 
