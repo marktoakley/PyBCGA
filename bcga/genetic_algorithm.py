@@ -98,5 +98,8 @@ class GeneticAlgorithm:
                 if 0 < diff < self.epoch_thresh:
                     print("New epoch. Energy change = "+str(diff))
                     self.population.mass_extinction()
+                    while len(self.population) < self.population.size:
+                        self.population.append(self.factory.get_random_cluster())
+            self.population.sort_energy()
             self.write_xyz("restart.xyz")
     
