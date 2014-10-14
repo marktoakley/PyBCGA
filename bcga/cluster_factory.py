@@ -22,7 +22,7 @@ class ClusterFactory:
         
     def get_random_cluster(self):
         '''Return a cluster with random coordinates'''
-        coords=(np.random.rand(self.natoms,3) -0.5) * 1.4 * float(self.natoms)
+        coords=(np.random.rand(self.natoms,3) -0.5) * 1.4 * float(self.natoms)**(1./3.)
         cluster = Cluster(self.natoms,
                           coords,
                           self.system,
