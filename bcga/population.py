@@ -71,7 +71,7 @@ class PopulationList(list):
         e_sum=0
         for cluster in self[0:self.size]:
             e_sum += cluster.get_energy()
-        return e_sum/float(self.size)
+        return e_sum/float(min(self.size,len(self)))
 
     def fill(self):
         '''Fill population with random structures'''
