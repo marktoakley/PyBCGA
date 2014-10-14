@@ -21,8 +21,6 @@ class BatchGeneticAlgorithm:
     offspring- Number of crossover operations in each generation
     mutant_rate- Probability of any cluster producing a mutant
     remove_duplicates- Remove identical clusters from population to prevent stagnation
-    mass_extinction- Re-set population if population stagnates
-    epoch_threshold- Mean population energy change that initiates mass extinction
     restart- Read population from restart.xyz and continue a search
     '''
     def __init__(self,natoms,minimiser,
@@ -41,38 +39,41 @@ class BatchGeneticAlgorithm:
         self.factory=ClusterFactory(natoms,minimiser,composition,labels)
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
-        try:
-            with open("restart.xyz") as xyz_file:
-                self.population.read_xyz(xyz_file)
-        except:
-            print("No restart file available.")
         #Evolutionary progress
         self.mean_energy_series=[]
         self.min_energy_series=[]
 
     def write_xyz(self,filename="cluster.xyz"):
-        '''Open an xyz file and write the current population to it'''
+        '''Open an xyz file and write the current population to it (non-blocking).'''
         try:
             with open(filename,'w') as xyz_file:
                 self.population.write_xyz(xyz_file)
         except IOError as err:
             print("File error: "+str(err))
+            
+    def read_xyz(self,filename="restart.xyz"):
+        '''Read population from an xyz file (non-blocking for now).'''
+        try:
+            with open("restart.xyz") as xyz_file:
+                self.population.read_xyz(xyz_file)
+        except:
+            print("No restart file available.")
 
     def run(self):
         '''Run the GA.'''
         for generation in range(1,self.max_generation+1):
             print ("Generation "+str(generation))
+            self.read_xyz("restart.xyz")
             if len(self.population) < self.population.size:
                 cluster=self.factory.get_random_cluster()
-                cluster.minimise()
-                self.population.append(cluster)
             else:
                 indices = self.selector.select(self.population)
                 cluster=self.factory.get_offspring(self.population[indices[0]],
                                                      self.population[indices[1]])
-                cluster.minimise()
-                self.population.append(cluster)
-                
+            cluster.minimise()
+            self.read_xyz("restart.xyz")
+            self.population.append(cluster)
+            self.population.sort_energy()    
             if self.remove_duplicates:
                 self.population.remove_duplicates()
             self.population.truncate()
