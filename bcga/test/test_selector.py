@@ -11,7 +11,8 @@ class ClusterTest(unittest.TestCase):
         minimiser=PeleMinimiser(LJCluster(natoms))
         factory=ClusterFactory(natoms,minimiser)
         self.population=PopulationList(natoms,factory,size=5)
-        self.population.fill()
+        while len(self.population) < self.population.size:
+            self.population.append(factory.get_random_cluster())
         self.population.sort_energy()
         
     def test_tournament(self):

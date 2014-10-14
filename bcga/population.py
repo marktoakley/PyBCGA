@@ -72,16 +72,11 @@ class PopulationList(list):
         for cluster in self[0:self.size]:
             e_sum += cluster.get_energy()
         return e_sum/float(min(self.size,len(self)))
-
-    def fill(self):
-        '''Fill population with random structures'''
-        while len(self) < self.size:
-            self.append(self.factory.get_random_cluster())
             
     def mass_extinction(self,survivors=0):
         '''Mass extinction event replaces whole population.
         Optionally a few survivors remain in the population.'''
         while len(self) > survivors:
             self.pop()
-        self.fill()
+        #self.fill()
 

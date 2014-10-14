@@ -46,7 +46,8 @@ class GeneticAlgorithm:
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
         if restart==False:
-            self.population.fill()
+            while len(self.population) < self.population.size:
+                self.population.append(self.factory.get_random_cluster())
             self.population.sort_energy()
         else:
             with open("restart.xyz",'r') as xyz_file:
