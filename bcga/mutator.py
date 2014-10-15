@@ -7,7 +7,7 @@ import numpy as np
 from bcga.composition import *
 
 class MutateExchange():
-    '''Mutate by exchanging pairs of atoms of different types'''
+    '''Mutate by exchanging pairs of atoms of different types.'''
     
     def get_mutant(self,cluster):
         cluster.sort_type()
@@ -24,4 +24,16 @@ class MutateExchange():
                         atom_types=atom_types,
                         labels=cluster.labels)
         mutant.sort_type()
+        return mutant
+    
+class MutateReplace():
+    '''Mutate by randomising positions of all atoms.'''
+    
+    def get_mutant(self,cluster):
+        coords=(np.random.rand(cluster.natoms,3) -0.5) * 1.4 * float(cluster.natoms)**(1./3.)
+        mutant=Cluster(cluster.natoms,
+                        coords,
+                        cluster.minimiser,
+                        atom_types=list(cluster.atom_types),
+                        labels=cluster.labels)
         return mutant

@@ -6,6 +6,7 @@ import random
 from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
 from bcga.selector import TournamentSelector
+from bcga.mutator import MutateReplace
 
 class GeneticAlgorithm:
     '''The Birmingham Cluster Genetic Algorithm.
@@ -31,7 +32,8 @@ class GeneticAlgorithm:
                  selector=TournamentSelector(3),
                  offspring=8,mutant_rate=0.1,remove_duplicates=False,
                  mass_extinction=False,epoch_thresh=1.e-6,
-                 restart=False):
+                 restart=False,
+                 mutator=MutateReplace()):
         #Parameters
         self.max_generation = max_generation
         self.mutant_rate = mutant_rate
@@ -42,7 +44,7 @@ class GeneticAlgorithm:
         self.epoch_thresh=epoch_thresh
         self.selector=selector
         #Factory
-        self.factory=ClusterFactory(natoms,minimiser,composition,labels)
+        self.factory=ClusterFactory(natoms,minimiser,composition,labels,mutator=mutator)
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
         if restart==False:
