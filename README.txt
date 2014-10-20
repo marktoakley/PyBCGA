@@ -20,9 +20,9 @@ gpaw (https://wiki.fysik.dtu.dk/gpaw/)
 
 ase (https://wiki.fysik.dtu.dk/ase/)
 
-numpy, gpaw and pele are all available in the Ubuntu package repositories and can be installed with:
+numpy is available in the Ubuntu package repositories and can be installed with:
 
- $ sudo apt-get install python-numpy gpaw python-ase
+ $ sudo apt-get install python-numpy
 
 Compile with:
 
