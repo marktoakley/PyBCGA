@@ -5,12 +5,12 @@ Simple BCGA run for a single-component Lennard-Jones cluster.
 '''
 
 from bcga.genetic_algorithm import GeneticAlgorithm
-from pele.systems.ljcluster import LJCluster
+import pele.potentials.lj as lj
 from bcga.minimiser import PeleMinimiser
 
 natoms = 38
-minimiser=PeleMinimiser(LJCluster(natoms))
+minimiser=PeleMinimiser(lj.LJ())
 
-myga = GeneticAlgorithm(natoms,minimiser,remove_duplicates=True,max_generation=100)
+myga = GeneticAlgorithm(natoms,minimiser,remove_duplicates=True,max_generation=10)
 myga.run()
 #myga.write_xyz()

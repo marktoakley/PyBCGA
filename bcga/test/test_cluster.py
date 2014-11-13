@@ -1,14 +1,14 @@
 import unittest
 from bcga.cluster import Cluster
 import numpy as np
-from pele.systems.ljcluster import LJCluster
-from pele.systems.bljcluster import BLJCluster
+import pele.potentials.lj as lj
+from pele.potentials import BLJCut
 from bcga.minimiser import PeleMinimiser
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
         self.natoms=3
-        minimiser=PeleMinimiser(LJCluster(self.natoms))
+        minimiser=PeleMinimiser(lj.LJ())
         coords=np.array(((0.,0.,0.1),
                          (1.,1.,0.3),
                          (0.,2.,0.2)))
@@ -37,7 +37,7 @@ class ClusterTest(unittest.TestCase):
 class BinaryClusterTest(unittest.TestCase):
     def setUp(self):
         self.natoms=3
-        minimiser=PeleMinimiser(BLJCluster(3,1))
+        minimiser=PeleMinimiser(BLJCut(3,1))
         coords=np.array(((0.,0.,0.1),
                          (1.,1.,0.3),
                          (0.,2.,0.2)))

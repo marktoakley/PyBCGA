@@ -3,13 +3,13 @@
 '''
 import unittest
 from bcga.batch_genetic_algorithm import BatchGeneticAlgorithm
-from pele.systems.ljcluster import LJCluster
+import pele.potentials.lj as lj
 from bcga.minimiser import PeleMinimiser
 
 class GATest(unittest.TestCase):
     def setUp(self):
         natoms=10
-        minimiser=PeleMinimiser(LJCluster(natoms))
+        minimiser=PeleMinimiser(lj.LJ())
         self.ga=BatchGeneticAlgorithm(natoms,minimiser,max_generation=20)
         
     def test_run(self):

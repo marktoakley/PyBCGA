@@ -8,17 +8,20 @@ from gpaw import *
 from ase.optimize.bfgslinesearch import BFGSLineSearch
 from gpaw import GPAW, PW, FermiDirac
 from bcga.composition import get_composition
+from pele.optimize import mylbfgs
+
 
 class PeleMinimiser():
     '''Adapter for pele minimisation'''
-    def __init__(self,system):
-        self.system=system
+    def __init__(self,potential):
+        self.potential=potential
         
     def minimise(self,cluster):
-        quench = self.system.get_minimizer()
-        res = quench(cluster._coords.flatten())
+        coords = cluster._coords.flatten()
+        quench = lambda coords : mylbfgs(coords, self.potential)
+        res = quench(coords)
         cluster.energy = res.energy
-        cluster._coords=np.reshape(res.coords,(-1,3))
+        cluster._coords=np.reshape(res._coords,(-1,3))
         cluster.quenched = True
         return cluster
     

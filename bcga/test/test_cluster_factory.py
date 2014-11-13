@@ -1,13 +1,13 @@
 import unittest
 from bcga.cluster_factory import ClusterFactory
-from pele.systems.ljcluster import LJCluster
+import pele.potentials.lj as lj
 from pele.systems.bljcluster import BLJCluster
 from bcga.minimiser import PeleMinimiser
 
 class ClusterFactoryTest(unittest.TestCase):
     def setUp(self):
         natoms=10
-        minimiser=PeleMinimiser(LJCluster(natoms))
+        minimiser=PeleMinimiser(lj.LJ())
         self.factory=ClusterFactory(natoms,minimiser)
         
     def test_mutant(self):
