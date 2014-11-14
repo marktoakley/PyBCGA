@@ -6,7 +6,7 @@ Simple BCGA run for a single-component Lennard-Jones cluster.
 
 from bcga.genetic_algorithm import GeneticAlgorithm
 import pele.potentials.lj as lj
-from bcga.minimiser import PeleMinimiser
+from bcga.pele_interface import PeleMinimiser
 
 natoms = 38
 minimiser=PeleMinimiser(lj.LJ())

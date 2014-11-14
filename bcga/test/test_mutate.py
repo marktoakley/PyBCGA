@@ -1,6 +1,6 @@
 import unittest
 
-from bcga.minimiser import PeleMinimiser
+from bcga.pele_interface import PeleMinimiser
 from pele.systems.bljcluster import BLJCluster
 from bcga.cluster_factory import ClusterFactory
 from bcga.mutator import MutateExchange

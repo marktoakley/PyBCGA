@@ -12,7 +12,7 @@ class GeneticAlgorithm:
     '''The Birmingham Cluster Genetic Algorithm.
     Parameters:
     natoms- Number of atoms in cluster
-    minimiser- See bcga.minimiser
+    minimiser- See bcga.gpaw_interface
     Optional parameters:
     composition- A list containing the number of atoms of each type
     labels- A list containing the names of each atom type

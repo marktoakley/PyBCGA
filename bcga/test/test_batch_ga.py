@@ -4,7 +4,7 @@
 import unittest
 from bcga.batch_genetic_algorithm import BatchGeneticAlgorithm
 import pele.potentials.lj as lj
-from bcga.minimiser import PeleMinimiser
+from bcga.pele_interface import PeleMinimiser
 
 class GATest(unittest.TestCase):
     def setUp(self):

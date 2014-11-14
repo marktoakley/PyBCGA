@@ -7,7 +7,7 @@ Example PyBCGA input for a binary Lennard-Jones cluster.
 from bcga.genetic_algorithm import GeneticAlgorithm
 from bcga.cluster_factory import ClusterFactory
 from pele.potentials import BLJCut
-from bcga.minimiser import PeleMinimiser
+from bcga.pele_interface import PeleMinimiser
 
 natoms = 13
 ntypea = 5

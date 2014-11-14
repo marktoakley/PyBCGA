@@ -2,7 +2,7 @@ import unittest
 from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
 import pele.potentials.lj as lj
-from bcga.minimiser import PeleMinimiser
+from bcga.pele_interface import PeleMinimiser
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):

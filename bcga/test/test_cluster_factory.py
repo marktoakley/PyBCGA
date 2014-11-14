@@ -2,7 +2,7 @@ import unittest
 from bcga.cluster_factory import ClusterFactory
 import pele.potentials.lj as lj
 from pele.systems.bljcluster import BLJCluster
-from bcga.minimiser import PeleMinimiser
+from bcga.pele_interface import PeleMinimiser
 
 class ClusterFactoryTest(unittest.TestCase):
     def setUp(self):

@@ -5,7 +5,7 @@ Example input file for PyBCGA-DFT using GPAW.
 '''
 
 from bcga.genetic_algorithm import GeneticAlgorithm
-from bcga.minimiser import GPAWMinimiser
+from bcga.gpaw_interface import GPAWMinimiser
 from gpaw import PW
 
 natoms = 4

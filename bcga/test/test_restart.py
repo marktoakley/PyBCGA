@@ -3,7 +3,7 @@ from bcga.cluster import Cluster
 import numpy as np
 from pele.systems.ljcluster import LJCluster
 from pele.systems.bljcluster import BLJCluster
-from bcga.minimiser import PeleMinimiser
+from bcga.pele_interface import PeleMinimiser
 from bcga.cluster_factory import ClusterFactory
 from bcga.population import PopulationList
 

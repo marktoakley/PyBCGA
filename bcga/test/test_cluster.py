@@ -3,7 +3,7 @@ from bcga.cluster import Cluster
 import numpy as np
 import pele.potentials.lj as lj
 from pele.potentials import BLJCut
-from bcga.minimiser import PeleMinimiser
+from bcga.pele_interface import PeleMinimiser
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
