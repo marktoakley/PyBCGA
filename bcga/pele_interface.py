@@ -17,7 +17,7 @@ class PeleMinimiser():
         quench = lambda coords : mylbfgs(coords, self.potential)
         res = quench(coords)
         cluster.energy = res.energy
-        cluster._coords=np.reshape(res._coords,(-1,3))
+        cluster._coords=np.reshape(res.coords,(-1,3))
         cluster.quenched = True
         return cluster
     
