@@ -26,7 +26,7 @@ numpy is available in the Ubuntu package repositories and can be installed with:
 
 Compile with:
 
-  $ python setup.py --help
+  $ python setup.py build
   
 Then add the installation directory to your PYTHONPATH environment variable.
 
