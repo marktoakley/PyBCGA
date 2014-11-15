@@ -11,9 +11,10 @@ class NWMinimiser():
     '''Adapter for GPAW minimisation.
     Takes any parameters from the NWChem class.
     If no parameters are defined, a PBE plane wave calculation is performed.'''
-    def __init__(self,**GPAWargs):
+    def __init__(self,temp_files="/tmp/nw",**GPAWargs):
         '''Set up'''
         self.GPAWargs=GPAWargs
+        self.temp_files=temp_files
         
     def minimise (self,cluster):
         cluster.fix_overlaps(1.5)
@@ -25,7 +26,7 @@ class NWMinimiser():
                       positions=cluster._coords)
         mol.center()
 
-        calc = NWChem(**self.GPAWargs)
+        calc = NWChem(label=self.temp_files,**self.GPAWargs)
 
         mol.set_calculator(calc)
         opt = BFGSLineSearch(mol)
