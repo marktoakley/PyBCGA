@@ -4,7 +4,7 @@
 import numpy as np
 import sys
 from ase.calculators.nwchem import *
-from ase.optimize.bfgslinesearch import BFGSLineSearch
+from ase.optimize.lbfgs import LBFGSLineSearch
 from bcga.composition import get_composition
     
 class NWMinimiser():
@@ -29,7 +29,7 @@ class NWMinimiser():
         calc = NWChem(label=self.temp_files,**self.GPAWargs)
 
         mol.set_calculator(calc)
-        opt = BFGSLineSearch(mol)
+        opt = LBFGSLineSearch(mol)
         try:
             opt.run(fmax=0.25)
         except:

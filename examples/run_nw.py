@@ -8,7 +8,7 @@ from bcga.genetic_algorithm import GeneticAlgorithm
 from bcga.nwchem_interface import NWMinimiser
 
 natoms = 3
-minimiser=NWMinimiser()
+minimiser=NWMinimiser(basis='6-31G',xc='b3lyp')
 myga = GeneticAlgorithm(natoms,minimiser,
                         labels=["He"],
                         pop_size=3,
