@@ -85,3 +85,14 @@ class ClusterFactory:
         cluster.energy=energy
         cluster.quenched=True
         return cluster
+    
+    def read_db(self,minimum):
+        '''Read structure from Pele minimum'''
+        cluster=Cluster(self.natoms,
+                        np.reshape(minimum.coords,(-1,3)),
+                        self.minimiser,
+                        atom_types=get_atom_types(self.composition),
+                        labels=self.labels)
+        cluster.energy=minimum.energy
+        cluster.quenched=True
+        return cluster

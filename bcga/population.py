@@ -78,4 +78,11 @@ class PopulationList(list):
         Optionally a few survivors remain in the population.'''
         while len(self) > survivors:
             self.pop()
-
+    
+    def read_db(self,db):
+        '''Read population from Pele database.'''
+        while len(self) > 0:
+            self.pop()
+        min=db.minima()
+        for i in min:
+            self.append(self.factory.read_db(i))

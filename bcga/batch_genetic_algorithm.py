@@ -7,6 +7,7 @@ from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
 from bcga.selector import TournamentSelector
 from bcga.mutator import MutateReplace
+from pele.storage.database import *
 
 class BatchGeneticAlgorithm:
     '''The Birmingham Cluster Genetic Algorithm.
@@ -44,6 +45,8 @@ class BatchGeneticAlgorithm:
         #Evolutionary progress
         self.mean_energy_series=[]
         self.min_energy_series=[]
+        self.db = Database(db="mydatabase.sqlite")
+        self.storage = self.db.minimum_adder(max_n_minima=pop_size)
 
     def write_xyz(self,filename="cluster.xyz"):
         '''Open an xyz file and write the current population to it (non-blocking).'''
@@ -66,12 +69,11 @@ class BatchGeneticAlgorithm:
         '''Run the GA.'''
         for generation in range(1,self.max_generation+1):
             print ("Generation "+str(generation))
-            self.read_xyz("restart.xyz")
-            print(len(self.population))
-            if len(self.population) < self.population.size:
+            if self.db.number_of_minima() < self.population.size:
                 cluster=self.factory.get_random_cluster()
                 print("Filling population with random structure.")
             else:
+                self.population.read_db(self.db)
                 if np.random < self.mutant_rate:
                     index=np.random.randint(0,len(self.population))
                     cluster=self.factory.get_mutant(self.population[index])
@@ -82,15 +84,16 @@ class BatchGeneticAlgorithm:
                                                        self.population[indices[1]])
                     print("Generating offpsring of clusters "+str(indices[0])+" and "+str(indices[1]))
             cluster.minimise()
-            self.read_xyz("restart.xyz")
-            self.population.append(cluster)
-            self.population.sort_energy()    
-            if self.remove_duplicates:
-                self.population.remove_duplicates()
-            self.population.truncate()
+            #self.read_xyz("restart.xyz")
+            #self.population.append(cluster)
+            self.storage(cluster.energy,cluster._coords.flatten())
+            #self.population.sort_energy()    
+            #if self.remove_duplicates:
+            #    self.population.remove_duplicates()
+            #self.population.truncate()
             #Update time series
-            self.mean_energy_series.append(self.population.get_mean_energy())
-            self.min_energy_series.append(self.population.get_lowest_energy())
-            print("Lowest energy: "+str(self.population.get_lowest_energy())+" Mean energy: "+str(self.population.get_mean_energy()))
-            self.write_xyz("restart.xyz")
+            #self.mean_energy_series.append(self.population.get_mean_energy())
+            #self.min_energy_series.append(self.population.get_lowest_energy())
+#            print("Lowest energy: "+str(self.storage.)
+            #self.write_xyz("restart.xyz")
     
