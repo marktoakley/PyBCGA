@@ -8,8 +8,9 @@ from gpaw import *
 from ase.optimize.bfgslinesearch import BFGSLineSearch
 from gpaw import GPAW, PW, FermiDirac
 from bcga.composition import get_composition
+from bcga.minimiser import Minimiser
     
-class GPAWMinimiser():
+class GPAWMinimiser(Minimiser):
     '''Adapter for GPAW minimisation.
     Takes any parameters from the GPAW class.
     If no parameters are defined, a PBE plane wave calculation is performed.'''
