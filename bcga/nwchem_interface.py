@@ -6,8 +6,9 @@ import sys
 from ase.calculators.nwchem import *
 from ase.optimize.lbfgs import LBFGSLineSearch
 from bcga.composition import get_composition
+from bcga.minimiser import Minimiser
     
-class NWMinimiser():
+class NWMinimiser(Minimiser):
     '''Adapter for GPAW minimisation.
     Takes any parameters from the NWChem class.
     If no parameters are defined, a PBE plane wave calculation is performed.'''

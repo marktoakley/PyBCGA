@@ -1,12 +1,19 @@
 '''
 @author: Mark Oakley
 '''
-
 from bcga.cluster import Cluster
 import numpy as np
 from bcga.composition import *
+from abc import ABCMeta, abstractmethod
 
-class MutateExchange():
+class Mutate():
+    '''Abstract superclass for mutators.'''
+    __metaclass__ = ABCMeta
+    
+    @abstractmethod
+    def get_mutant(self,cluster): pass
+
+class MutateExchange(Mutate):
     '''Mutate by exchanging pairs of atoms of different types.'''
     
     def get_mutant(self,cluster):
@@ -26,7 +33,7 @@ class MutateExchange():
         mutant.sort_type()
         return mutant
     
-class MutateReplace():
+class MutateReplace(Mutate):
     '''Mutate by randomising positions of all atoms.'''
     
     def get_mutant(self,cluster):

@@ -5,9 +5,10 @@ import numpy as np
 import sys
 from bcga.composition import get_composition
 from pele.optimize import mylbfgs
+from bcga.minimiser import Minimiser
 
 
-class PeleMinimiser():
+class PeleMinimiser(Minimiser):
     '''Adapter for pele minimisation'''
     def __init__(self,potential):
         self.potential=potential
