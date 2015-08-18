@@ -12,6 +12,7 @@ class Mutate():
     
     @abstractmethod
     def get_mutant(self,cluster): pass
+    '''Generate a new cluster object based on a parent cluster object.'''
 
 class MutateExchange(Mutate):
     '''Mutate by exchanging pairs of atoms of different types.'''

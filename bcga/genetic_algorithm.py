@@ -10,6 +10,7 @@ from bcga.mutator import MutateReplace
 
 class GeneticAlgorithm:
     '''The Birmingham Cluster Genetic Algorithm.
+    This is based on the original serial version of the BCGA.
     Parameters:
     natoms- Number of atoms in cluster
     minimiser- See bcga.gpaw_interface

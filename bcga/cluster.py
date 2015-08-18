@@ -10,7 +10,6 @@ import math
 
 class Cluster:
     '''An atomic cluster.
-    (Only single-component clusters are currently implemented).
     Parameters:
     natoms- Number of atoms in cluster.
     _coords- a 3*natoms numpy array containing the cluster's atomic coordinates.'''

@@ -11,6 +11,7 @@ from pele.storage.database import *
 
 class BatchGeneticAlgorithm:
     '''The Birmingham Cluster Genetic Algorithm.
+    A new parallel version of the BCGA. The population is stored in a pele database and can be accessed by several processes simultaneously.
     Parameters:
     natoms- Number of atoms in cluster
     minimiser- See bcga.gpaw_interface
