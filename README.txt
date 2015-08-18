@@ -5,7 +5,10 @@ Description
 ===========
 
 A Python version of the Birmingham Cluster Genetic Algorithm.
-The BCGA is decribed in Roy L. Johnston, Dalton Transactions, 2003, 4193-4207 (http://dx.doi.org/10.1039/b305686d).
+
+The original methodology of the BCGA is described in Roy L. Johnston, Dalton Transactions, 2003, 4193-4207 (http://dx.doi.org/10.1039/b305686d).
+
+The most recent version of the BCGA is available at https://bitbucket.org/JBADavis/bpga and Jack B. A. Davis, Armin Shayeghi, Sarah L. Horswell, Roy L. Johnston, Nanoscale, 7, 2015, 14032-14038 (http://dx.doi.org/10.1039/c5nr03774c).
 
 Installation
 ============
