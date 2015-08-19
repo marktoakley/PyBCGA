@@ -2,8 +2,21 @@
 @author: Mark Oakley
 '''
 import numpy as np
+from abc import ABCMeta, abstractmethod
 
-class TournamentSelector():
+class Selector():
+    '''Abstract superclass for selector.'''
+    __metaclass__ = ABCMeta
+    
+    @abstractmethod
+    def select(self,population): pass
+    '''Select parent structures for crossover.
+    Parameters:
+    population- a PopulationList object
+    Return:
+    A list ocntaining two cluster objects'''
+
+class TournamentSelector(Selector):
     '''Select parents for crossover by tournament selection.'''
     def __init__(self,tournament_size=3):
         self.tournament_size=tournament_size
@@ -11,10 +24,10 @@ class TournamentSelector():
     def select(self,population):
         a = np.arange(population.max_size)
         np.random.shuffle(a)
-        a=sorted(a[:3])
+        a=sorted(a[:self.tournament_size])
         return (a[:2])
     
-class RouletteSelector():
+class RouletteSelector(Selector):
     '''Select parents for crossover using roulette wheel method.'''
         
     def select(self,population):    
