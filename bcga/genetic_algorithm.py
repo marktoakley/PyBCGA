@@ -49,7 +49,7 @@ class GeneticAlgorithm:
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
         if restart==False:
-            while len(self.population) < self.population.size:
+            while len(self.population) < self.population.max_size:
                 self.population.append(self.factory.get_random_cluster())
             self.population.sort_energy()
         else:
@@ -101,7 +101,7 @@ class GeneticAlgorithm:
                 if 0 < diff < self.epoch_thresh:
                     print("New epoch. Energy change = "+str(diff))
                     self.population.mass_extinction()
-                    while len(self.population) < self.population.size:
+                    while len(self.population) < self.population.max_size:
                         self.population.append(self.factory.get_random_cluster())
             self.population.sort_energy()
             self.write_xyz("restart.xyz")

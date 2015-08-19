@@ -47,7 +47,7 @@ class BatchGeneticAlgorithm:
         self.mean_energy_series=[]
         self.min_energy_series=[]
         self.db = Database(db="mydatabase.sqlite")
-        self.storage = self.db.minimum_adder(max_n_minima=pop_size)
+        self.storage = self.db.minimum_adder()
 
     def write_xyz(self,filename="cluster.xyz"):
         '''Open an xyz file and write the current population to it (non-blocking).'''
@@ -70,7 +70,7 @@ class BatchGeneticAlgorithm:
         '''Run the GA.'''
         for generation in range(1,self.max_generation+1):
             print ("Generation "+str(generation))
-            if self.db.number_of_minima() < self.population.size:
+            if self.db.number_of_minima() < self.population.max_size:
                 cluster=self.factory.get_random_cluster()
                 print("Filling population with random structure.")
             else:

@@ -10,8 +10,8 @@ class ClusterTest(unittest.TestCase):
         natoms=10
         minimiser=PeleMinimiser(lj.LJ())
         factory=ClusterFactory(natoms,minimiser)
-        self.population=PopulationList(natoms,factory,size=5)
-        while len(self.population) < self.population.size:
+        self.population=PopulationList(natoms,factory,max_size=5)
+        while len(self.population) < self.population.max_size:
             self.population.append(factory.get_random_cluster())
         self.population.sort_energy()
         
