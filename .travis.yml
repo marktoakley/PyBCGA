@@ -52,7 +52,9 @@ install:
   - python setup_with_cmake.py build_ext -i --fcompiler=gfortran
   - export PYTHONPATH="$PWD:$PYTHONPATH"
   # build and install mcpele
-  - cd ../marktoakley/PyBCGA
+  - cd ..
+  - ls
+  - cd PyBCGA
   - python setup.py build
   - python setup.py install
 #  - cp .coveragerc $HOME
