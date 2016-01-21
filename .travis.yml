@@ -45,13 +45,14 @@ install:
   - pip install munkres hungarian pyro4 brewer2mpl coverage coveralls coveralls-merge mpi4py 
   # download and install pele
   - pwd
+  - mkdir -p  $HOME/build/pele-python
   - cd $HOME/build/pele-python
   - git clone https://github.com/pele-python/pele.git
   - cd pele
   - python setup_with_cmake.py build_ext -i --fcompiler=gfortran
   - export PYTHONPATH="$PWD:$PYTHONPATH"
   # build and install mcpele
-  - cd ../pybcga
+  - cd ../marktoakley/PyBCGA
   - python setup.py build
   - python setup.py install
 #  - cp .coveragerc $HOME
