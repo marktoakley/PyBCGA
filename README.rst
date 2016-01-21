@@ -1,3 +1,9 @@
+.. image:: https://travis-ci.org/marktoakley/PyBCGA.svg?branch=master
+    :target: https://travis-ci.org/marktoakley/PyBCGA
+
+.. image:: https://coveralls.io/repos/github/marktoakley/PyBCGA/badge.svg?branch=master
+    :target: https://coveralls.io/github/marktoakley/PyBCGA?branch=master
+
 PyBCGA
 ++++++
 
