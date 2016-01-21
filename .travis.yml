@@ -72,8 +72,8 @@ install:
 
 script:
   # avoid running in the checkout directory so nose finds built modules..
-  - rundir=$HOME
-  - cd $rundir
+#  - rundir=$HOME
+#  - cd $rundir
   - nosetests -v --with-coverage bcga
 #  # do the c++ tests
 #  - cd $cppbuild
@@ -98,4 +98,4 @@ after_success:
 #  # need to be in source directory to call coverage
 #  - cd $sourcedir # not sure if this is necessary
 #  - cp $rundir/.coverage .
-#  - coveralls-merge $cppbuild/coverage.c.json
+  - coveralls
