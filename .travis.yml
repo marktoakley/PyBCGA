@@ -19,6 +19,7 @@ before_install:
   # borrowed from https://gist.github.com/dan-blanchard/7045057
   # and https://github.com/Jorge-C/ordination/blob/master/.travis.yml
   - pwd
+  - ls
   - sudo apt-get update -qq
   - sudo apt-get install -qq libatlas-dev libatlas-base-dev liblapack-dev gfortran lcov
   - gem install coveralls-lcov
@@ -52,7 +53,7 @@ install:
   - python setup_with_cmake.py build_ext -i --fcompiler=gfortran
   - export PYTHONPATH="$PWD:$PYTHONPATH"
   # build and install mcpele
-  - cd $HOME
+  - cd $HOME/build
   - ls
   - cd PyBCGA
   - python setup.py build
