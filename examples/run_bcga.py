@@ -1,5 +1,9 @@
 '''
-Simple BCGA run for a single-component Lennard-Jones cluster.
+A simple GA run. We use a 38 atom Lennard-Jones in this example.
+
+The natoms argument defines the number of atoms in the cluster and is required for all GA searchs.
+The minimiser object is also needed to perform the energy evaluations. This example uses a simple
+Lennard-Jones minimiser. Other examples show how to set up minimisers for more complicated potentials.
 
 @author: Mark Oakley
 '''
@@ -8,9 +12,6 @@ from bcga.genetic_algorithm import GeneticAlgorithm
 import pele.potentials.lj as lj
 from bcga.pele_interface import PeleMinimiser
 
-natoms = 38
-minimiser=PeleMinimiser(lj.LJ())
-
-myga = GeneticAlgorithm(natoms,minimiser,remove_duplicates=True,max_generation=10)
+myga = GeneticAlgorithm(natoms=38, # Number of atoms
+                        minimiser=PeleMinimiser(lj.LJ())) #Energy minimisation method
 myga.run()
-#myga.write_xyz()
