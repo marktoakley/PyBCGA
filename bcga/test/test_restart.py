@@ -1,8 +1,8 @@
 import unittest
-from bcga.cluster import Cluster
-import numpy as np
+import os
+
 from pele.systems.ljcluster import LJCluster
-from pele.systems.bljcluster import BLJCluster
+
 from bcga.pele_interface import PeleMinimiser
 from bcga.cluster_factory import ClusterFactory
 from bcga.population import PopulationList
@@ -22,6 +22,9 @@ class ClusterTest(unittest.TestCase):
                 xyz_file.write("Y 0.0 1.0 0.0\n")
         except IOError as err:
             print("File error: "+str(err))
+            
+    def tearDown(self):
+        os.remove("restart.xyz")
             
     def test_cluster(self):
         natoms=3
