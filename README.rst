@@ -3,6 +3,10 @@
 
 .. image:: https://coveralls.io/repos/github/marktoakley/PyBCGA/badge.svg?branch=master
     :target: https://coveralls.io/github/marktoakley/PyBCGA?branch=master
+    
+.. image:: https://landscape.io/github/marktoakley/PyBCGA/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/marktoakley/PyBCGA/master
+   :alt: Code Health
 
 PyBCGA
 ++++++
