@@ -7,6 +7,7 @@ from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
 from bcga.selector import TournamentSelector
 from bcga.mutator import MutateReplace
+from bcga.crossover import DeavenHo
 
 class GeneticAlgorithm(object):
     '''The Birmingham Cluster Genetic Algorithm.
@@ -34,7 +35,8 @@ class GeneticAlgorithm(object):
                  offspring=8,mutant_rate=0.1,remove_duplicates=False,
                  mass_extinction=False,epoch_thresh=1.e-6,
                  restart=False,
-                 mutator=MutateReplace()):
+                 mutator=MutateReplace(),
+                 crossover=DeavenHo()):
         #Parameters
         self.max_generation = max_generation
         self.mutant_rate = mutant_rate
@@ -44,8 +46,10 @@ class GeneticAlgorithm(object):
         self.mass_extinction=mass_extinction
         self.epoch_thresh=epoch_thresh
         self.selector=selector
+        self.mutator = mutator
+        self.crossover = crossover
         #Factory
-        self.factory=ClusterFactory(natoms,minimiser,composition,labels,mutator=mutator)
+        self.factory=ClusterFactory(natoms,minimiser,composition,labels)
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
         if restart is False:
@@ -65,7 +69,7 @@ class GeneticAlgorithm(object):
         '''Add offspring clusters to population'''
         for i in range(0, self.offspring):
             indices = self.selector.select(self.population)
-            mycluster=self.factory.get_offspring(self.population[indices[0]],
+            mycluster=self.crossover.get_offspring(self.population[indices[0]],
                                                  self.population[indices[1]])
             self.population.append(mycluster)
 
@@ -73,7 +77,7 @@ class GeneticAlgorithm(object):
         '''Add mutant clusters to population'''
         for mycluster in self.population:
             if np.random.uniform(0, 1) < self.mutant_rate:
-                self.population.append(self.factory.get_mutant(mycluster))
+                self.population.append(self.mutator.get_mutant(mycluster))
                 
     def write_xyz(self,filename="cluster.xyz"):
         '''Open an xyz file and write the current population to it'''

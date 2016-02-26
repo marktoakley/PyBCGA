@@ -1,9 +1,11 @@
 import unittest
 
-from bcga.pele_interface import PeleMinimiser
 from pele.systems.bljcluster import BLJCluster
+import pele.potentials.lj as lj
+
+from bcga.pele_interface import PeleMinimiser
 from bcga.cluster_factory import ClusterFactory
-from bcga.mutator import MutateExchange
+from bcga.mutator import MutateExchange, MutateReplace
 
 class ClusterTest(unittest.TestCase):
         
@@ -19,6 +21,15 @@ class ClusterTest(unittest.TestCase):
             mutant=mutator.get_mutant(cluster)
             self.assertEquals(mutant.atom_types[9],0)
             self.assertEquals(mutant.atom_types[10],1)
-            
+
+    def test_replace(self):
+        natoms=10
+        minimiser=PeleMinimiser(lj.LJ())
+        factory=ClusterFactory(natoms,minimiser)
+        parent = factory.get_random_cluster()   
+        mutator = MutateReplace()
+        mutant = mutator.get_mutant(parent)
+        self.assertLess(mutant.get_energy(), 0)
+                
 if __name__ == "__main__":
     unittest.main()

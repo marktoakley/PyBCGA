@@ -13,7 +13,7 @@ class ClusterFactory:
     natoms- Number of atoms in cluster.
     composition- List containing number of atoms of each type.
     labels- List containing names of each atom type.'''
-    def __init__(self,natoms,minimiser,composition="default",labels=["X"],mutator=MutateReplace()):
+    def __init__(self,natoms,minimiser,composition="default",labels=["X"]):
         self.natoms=natoms
         if composition=="default":
             self.composition=[natoms]
@@ -21,8 +21,6 @@ class ClusterFactory:
             self.composition=composition
         self.labels=labels
         self.minimiser=minimiser
-        self.mutator=mutator
-        self.crossover = DeavenHo()
         
     def get_random_cluster(self):
         '''Return a cluster with random coordinates'''
@@ -34,20 +32,6 @@ class ClusterFactory:
                           labels=self.labels)
         cluster.quenched=False
         return cluster
-    
-    def get_mutant(self,cluster):
-        '''Generate a mutant structure from a parent structure.
-        Currently, this randomises all of the coordinates in the mutant.'''
-        mutant=self.mutator.get_mutant(cluster)
-        mutant.quenched = False
-        return mutant
-    
-    def get_offspring(self,cluster_a,cluster_b):
-        '''Generate an offspring structure from two parent structures.
-        This uses the Deaven-Ho cut-and-splice method.'''
-        offspring = self.crossover.get_offspring(cluster_a, cluster_b)
-        offspring.quenched = False
-        return offspring
     
     def read_xyz(self,xyz_file):
         '''Read structure from xyz file.'''

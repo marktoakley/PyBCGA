@@ -3,11 +3,13 @@
 '''
 import numpy as np
 
+from pele.storage.database import Database
+
 from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
 from bcga.selector import TournamentSelector
 from bcga.mutator import MutateReplace
-from pele.storage.database import Database
+from bcga.crossover import DeavenHo
 
 class BatchGeneticAlgorithm(object):
     '''The Birmingham Cluster Genetic Algorithm.
@@ -31,7 +33,8 @@ class BatchGeneticAlgorithm(object):
                  pop_size=10,max_generation=10,
                  selector=TournamentSelector(3),
                  offspring=8,mutant_rate=0.1,remove_duplicates=False,
-                 mutator=MutateReplace()):
+                 mutator=MutateReplace(),
+                 crossover=DeavenHo()):
         #Parameters
         self.max_generation = max_generation
         self.mutant_rate = mutant_rate
@@ -39,8 +42,10 @@ class BatchGeneticAlgorithm(object):
         self.pop_size=pop_size
         self.remove_duplicates=remove_duplicates
         self.selector=selector
+        self.mutator = mutator
+        self.crossover = crossover
         #Factory
-        self.factory=ClusterFactory(natoms,minimiser,composition,labels,mutator=mutator)
+        self.factory=ClusterFactory(natoms,minimiser,composition,labels)
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
         #Evolutionary progress
@@ -77,11 +82,11 @@ class BatchGeneticAlgorithm(object):
                 self.population.read_db(self.db)
                 if np.random < self.mutant_rate:
                     index=np.random.randint(0,len(self.population))
-                    cluster=self.factory.get_mutant(self.population[index])
+                    cluster=self.mutator.get_mutant(self.population[index])
                     print("Generating mutant of cluster "+str(index))
                 else:
                     indices = self.selector.select(self.population)
-                    cluster=self.factory.get_offspring(self.population[indices[0]],
+                    cluster=self.crossover.get_offspring(self.population[indices[0]],
                                                        self.population[indices[1]])
                     print("Generating offpsring of clusters "+str(indices[0])+" and "+str(indices[1]))
             cluster.minimise()
