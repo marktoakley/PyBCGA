@@ -2,20 +2,20 @@
 @author: Mark Oakley
 '''
 import numpy as np
-import random
+
 from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
 from bcga.selector import TournamentSelector
 from bcga.mutator import MutateReplace
 
-class GeneticAlgorithm:
+class GeneticAlgorithm(object):
     '''The Birmingham Cluster Genetic Algorithm.
     This is based on the original serial version of the BCGA.
     Parameters:
     natoms- Number of atoms in cluster
     minimiser- See bcga.gpaw_interface
     Optional parameters:
-    composition- A list containing the number of atoms of each type
+    composition- A tuple or list containing the number of atoms of each type (e.g. ["Au","Ag"])
     labels- A list containing the names of each atom type
     pop_size- Number of clusters in population
     max_generation- Number of generations to run GA
@@ -28,7 +28,7 @@ class GeneticAlgorithm:
     restart- Read population from restart.xyz and continue a search
     '''
     def __init__(self,natoms,minimiser,
-                 composition="default",labels=["X"],
+                 composition="default",labels=("X",),
                  pop_size=10,max_generation=10,
                  selector=TournamentSelector(3),
                  offspring=8,mutant_rate=0.1,remove_duplicates=False,
@@ -48,7 +48,7 @@ class GeneticAlgorithm:
         self.factory=ClusterFactory(natoms,minimiser,composition,labels,mutator=mutator)
         #PopulationList
         self.population = PopulationList(natoms,self.factory,pop_size)
-        if restart==False:
+        if restart is False:
             while len(self.population) < self.population.max_size:
                 self.population.append(self.factory.get_random_cluster())
             self.population.sort_energy()

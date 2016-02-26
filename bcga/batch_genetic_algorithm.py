@@ -2,14 +2,14 @@
 @author: Mark Oakley
 '''
 import numpy as np
-import random
+
 from bcga.population import PopulationList
 from bcga.cluster_factory import ClusterFactory
 from bcga.selector import TournamentSelector
 from bcga.mutator import MutateReplace
-from pele.storage.database import *
+from pele.storage.database import Database
 
-class BatchGeneticAlgorithm:
+class BatchGeneticAlgorithm(object):
     '''The Birmingham Cluster Genetic Algorithm.
     A new parallel version of the BCGA. The population is stored in a pele database and can be accessed by several processes simultaneously.
     Parameters:
@@ -17,7 +17,7 @@ class BatchGeneticAlgorithm:
     minimiser- See bcga.gpaw_interface
     Optional parameters:
     composition- A list containing the number of atoms of each type
-    labels- A list containing the names of each atom type
+    labels- A tuple orblist containing the names of each atom type (e.g. ["Au","Ag"]
     pop_size- Number of clusters in population
     max_generation- Number of generations to run GA
     selector- Selection method for choosing parents (see bcga.selector)
@@ -27,7 +27,7 @@ class BatchGeneticAlgorithm:
     restart- Read population from restart.xyz and continue a search
     '''
     def __init__(self,natoms,minimiser,
-                 composition="default",labels=["X"],
+                 composition="default",labels=("X",),
                  pop_size=10,max_generation=10,
                  selector=TournamentSelector(3),
                  offspring=8,mutant_rate=0.1,remove_duplicates=False,
@@ -49,19 +49,19 @@ class BatchGeneticAlgorithm:
         self.db = Database(db="mydatabase.sqlite")
         self.storage = self.db.minimum_adder()
 
-    def write_xyz(self,filename="cluster.xyz"):
+    def write_xyz(self,file_name="cluster.xyz"):
         '''Open an xyz file and write the current population to it (non-blocking).'''
         try:
-            with open(filename,'w') as xyz_file:
+            with open(file_name,'w') as xyz_file:
                 self.population.write_xyz(xyz_file)
         except IOError as err:
             print("File error: "+str(err))
             
-    def read_xyz(self,filename="restart.xyz"):
+    def read_xyz(self,file_name="restart.xyz"):
         '''Read population from an xyz file (non-blocking for now).'''
         self.population.mass_extinction(0)
         try:
-            with open("restart.xyz") as xyz_file:
+            with open(file_name) as xyz_file:
                 self.population.read_xyz(xyz_file)
         except:
             print("No restart file available.")
