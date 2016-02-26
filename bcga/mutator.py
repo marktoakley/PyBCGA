@@ -3,7 +3,7 @@
 '''
 from bcga.cluster import Cluster
 import numpy as np
-from bcga.composition import *
+from bcga.composition import get_composition
 from abc import ABCMeta, abstractmethod
 
 class Mutate():
@@ -11,8 +11,9 @@ class Mutate():
     __metaclass__ = ABCMeta
     
     @abstractmethod
-    def get_mutant(self,cluster): pass
-    '''Generate a new cluster object based on a parent cluster object.'''
+    def get_mutant(self,cluster):
+        '''Generate a new cluster object based on a parent cluster object.'''
+        pass
 
 class MutateExchange(Mutate):
     '''Mutate by exchanging pairs of atoms of different types.'''

@@ -2,10 +2,9 @@
 @author: Mark Oakley
 '''
 import numpy as np
+
 from bcga.cluster import Cluster
-from bcga.composition import *
-from bcga.mutator import MutateReplace
-from bcga.crossover import DeavenHo
+from bcga.composition import get_atom_types
 
 class ClusterFactory:
     '''Builds clusters.
@@ -13,7 +12,7 @@ class ClusterFactory:
     natoms- Number of atoms in cluster.
     composition- List containing number of atoms of each type.
     labels- List containing names of each atom type.'''
-    def __init__(self,natoms,minimiser,composition="default",labels=["X"]):
+    def __init__(self,natoms,minimiser,composition="default",labels=("X",)):
         self.natoms=natoms
         if composition=="default":
             self.composition=[natoms]
