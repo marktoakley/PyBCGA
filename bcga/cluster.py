@@ -24,6 +24,7 @@ class Cluster(object):
         self._coords=coords
         self.labels=labels
         self.minimiser=minimiser
+        self.energy = None
         if atom_types is None:
             atom_types=[0]*natoms
         self.atom_types=atom_types

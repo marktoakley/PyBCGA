@@ -5,6 +5,7 @@ import numpy as np
 from bcga.cluster import Cluster
 from bcga.composition import *
 from bcga.mutator import MutateReplace
+from bcga.crossover import DeavenHo
 
 class ClusterFactory:
     '''Builds clusters.
@@ -21,6 +22,7 @@ class ClusterFactory:
         self.labels=labels
         self.minimiser=minimiser
         self.mutator=mutator
+        self.crossover = DeavenHo()
         
     def get_random_cluster(self):
         '''Return a cluster with random coordinates'''
@@ -37,37 +39,14 @@ class ClusterFactory:
         '''Generate a mutant structure from a parent structure.
         Currently, this randomises all of the coordinates in the mutant.'''
         mutant=self.mutator.get_mutant(cluster)
+        mutant.quenched = False
         return mutant
     
-    def get_offspring(self,cluster0,cluster1):
+    def get_offspring(self,cluster_a,cluster_b):
         '''Generate an offspring structure from two parent structures.
         This uses the Deaven-Ho cut-and-splice method.'''
-        #Prepare clusters
-        for cluster in [cluster0,cluster1]:
-            cluster.centre()
-            cluster.rotate_random()
-            cluster.sort_z()
-        #Choose cutting plane
-        cut=np.random.randint(1,self.natoms)
-        #Make new cluster
-        coords=np.empty(shape=(self.natoms,3))
-        atom_types=[]
-        for i in range(0,cut):
-            coords[i]=cluster0.get_coords(i)
-            atom_types.append(cluster0.atom_types[i])
-        for i in range(cut,self.natoms):
-            coords[i]=cluster1.get_coords(i)
-            atom_types.append(cluster1.atom_types[i])
-        atom_types=fix_composition(self.composition,atom_types)
-        offspring=Cluster(self.natoms,
-                          coords,
-                          self.minimiser,
-                          atom_types=atom_types,
-                          labels=self.labels)
-        offspring.quenched=False
-        offspring.sort_type()
-        cluster0.sort_type()
-        cluster1.sort_type()
+        offspring = self.crossover.get_offspring(cluster_a, cluster_b)
+        offspring.quenched = False
         return offspring
     
     def read_xyz(self,xyz_file):
