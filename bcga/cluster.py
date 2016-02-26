@@ -8,33 +8,36 @@ Atomic cluster.
 import numpy as np
 import math
 
-class Cluster:
-    '''An atomic cluster.
-    Parameters:
-    natoms- Number of atoms in cluster.
-    _coords- a 3*natoms numpy array containing the cluster's atomic coordinates.'''
-    def __init__(self,natoms,coords,minimiser,atom_types=[],labels=["X"]):
+class Cluster(object):
+    '''An atomic cluster.'''
+    def __init__(self,natoms,coords,minimiser,atom_types=None,labels=("X",)):
         '''Make a new cluster.
-        In most cases, use the ClusterFactory class to make a new Cluster.'''
+        In most cases, use the ClusterFactory class to make a new Cluster.
+        Parameters:
+        natoms- Number of atoms in cluster.
+        coords- A 3*natoms numpy array containing the cluster's atomic coordinates.
+        minimiser- A Minimiser object to define the energy calculation method (see bcga.minimiser)
+        atom_types- Needed for binary clusters. ClusterFactory handles the generaton of this list
+        labels- A list or tuple containing the atom labels (e.g. ["Au","Ag"]'''
         self.natoms=natoms
         self.quenched=False
         self._coords=coords
         self.labels=labels
         self.minimiser=minimiser
-        if atom_types==[]:
+        if atom_types is None:
             atom_types=[0]*natoms
         self.atom_types=atom_types
         
     def get_energy(self):
-        '''Returns energy of minimised cluster'''
-        if self.quenched==False:
+        '''Returns energy of cluster.
+        Also minimises the cluster if this has not already happened.'''
+        if self.quenched is False:
             self.minimise()
             self.quenched=True
         return self.energy
     
     def minimise(self): 
-        '''Minimise a Lennard-Jones cluster with the LBFGS minimiser.
-        (Eventually, other potentials will be available.)'''
+        '''Perform a local minimisation onthe cluster.'''
         self.minimiser.minimise(self)
   
     def sort_type(self):
@@ -53,7 +56,9 @@ class Cluster:
             print(str(i+1)+"\t"+str(self._coords[i]))
             
     def write_xyz(self,xyz_file):
-        '''Write the cluster's coordinates to an xyz file.'''
+        '''Write the cluster's coordinates to an xyz file.
+        Parameters:
+        xyz_file- An open file'''
         xyz_file.write(str(self.natoms)+"\n")
         xyz_file.write("Energy: "+str(self.get_energy())+"\n")
         for i in range(0,self.natoms):
@@ -63,7 +68,9 @@ class Cluster:
                            " "+str(self._coords[i,2])+"\n")
             
     def centre(self):
-        '''Translate cluster's centre of mass to origin.'''
+        '''Translate cluster's centroid to the origin.
+        Note that this may not be the centre of mass because different masses
+        for different elements are not currently supported.'''
         com=np.mean(self._coords,axis=0)
         self._coords=(self._coords-com)
         return -com
@@ -104,19 +111,18 @@ class Cluster:
         '''Return the string corresponding to the atom at index i.'''
         return self.labels[self.atom_types[i]]
     
-    def fix_overlaps(self,cutoff=1.0):
+    def fix_overlaps(self,cut_off=1.0):
         '''Fix overlapping atoms (useful for GA-DFT).
-        Any pairwise distances shorter than the cutoff are expanded.'''
+        Any pairwise distances shorter than the cut_off are expanded.'''
         converged = False
-        while converged==False:
+        while converged is False:
             converged=True
             moves=np.zeros(shape=(self.natoms,3))
             for i in range (0,self.natoms):
                 for j in range (i+1,self.natoms):
                     vec=self._coords[i,:] - self._coords[j,:]
-                    if vec.dot(vec) < cutoff:
+                    if vec.dot(vec) < cut_off**2:
                         moves[i,:]+=vec*0.1
                         moves[j,:]-=vec*0.1
                         converged=False
             self._coords+=moves
-        
